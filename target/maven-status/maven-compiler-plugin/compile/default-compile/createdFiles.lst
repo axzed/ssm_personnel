@@ -1,0 +1,5 @@
+com\axzed\service\AdminService.class
+com\axzed\bean\AdminInfo.class
+com\axzed\controller\AdminController.class
+com\axzed\mapper\AdminMapper.class
+com\axzed\service\impl\AdminServiceImpl.class
