@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -29,11 +31,41 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/login")
-    public String adminLogin(String username, String password, Model model, HttpSession session) {
+    public String adminLogin(String rem, String username, String password, Model model, HttpSession session, HttpServletResponse response) {
         AdminInfo adminInfo = adminService.login(username, password);
         if (adminInfo != null) {
             session.setAttribute("admin", adminInfo);
-            return "redirect:" + "/page/index.jsp";
+             //用户选择记住用户名
+             //如果数据库中存在用户信息
+             //查看用户是否点击记住用户名
+            if (rem.equals("1")) {
+                // 创建一个cookie
+                Cookie cookie = new Cookie("username", adminInfo.getUsername());
+                cookie.setMaxAge(68 * 68 * 24 * 7); // cookie存活时间 7days
+                cookie.setPath("/");                // 设置cookie访问路径
+                response.addCookie(cookie);         // 响应数据中加入cookie
+            } else {
+                Cookie cookie = new Cookie("username", "");
+                cookie.setMaxAge(0);
+                cookie.setPath("/");
+                response.addCookie(cookie);
+            }
+
+            // 自动登录
+            if (rem.equals("2")) {
+                Cookie autoLoginCookie = new Cookie("autoLoginCookie", adminInfo.getUsername() + "@" + adminInfo.getPassword());
+                autoLoginCookie.setMaxAge(60 * 60 * 24 * 7);
+                autoLoginCookie.setPath("/");
+                response.addCookie(autoLoginCookie);
+            } else {
+                Cookie autoLoginCookie = new Cookie("autoLoginCookie", "");
+                autoLoginCookie.setMaxAge(0);
+                autoLoginCookie.setPath("/");
+                response.addCookie(autoLoginCookie);
+            }
+
+            // 重定向到主页
+           return "redirect:" + "/page/index.jsp";
         } else {
             model.addAttribute("errorMsg", "用户名或密码错误");
             return "/loginForm.jsp";
@@ -50,5 +82,8 @@ public class AdminController {
         session.invalidate();
         return "/loginForm.jsp";
     }
+
+
+
 
 }

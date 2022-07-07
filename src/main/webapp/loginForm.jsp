@@ -27,7 +27,7 @@
         <div id="darkbannerwrap"></div>
         ${requestScope.errorMsg}
         <form method="post" class="layui-form" action="${ctx}/admin/login">
-            <input name="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input" >
+            <input name="username" placeholder="用户名" value="${cookie.username.value}" type="text" lay-verify="required" class="layui-input" >
             <hr class="hr15">
             <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
             <hr class="hr15">
@@ -36,6 +36,9 @@
             <option value="2">用户</option>
             </select>
             <br>
+            <input type="radio" name="rem" value="1" title="记住用户名" checked="checked">
+            <input type="radio" name="rem" value="2" title="自动登录">
+
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
             <hr class="hr20" >
         </form>
