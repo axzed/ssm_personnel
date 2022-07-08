@@ -1,6 +1,11 @@
-com\axzed\service\AdminService.class
 com\axzed\bean\AdminInfo.class
-com\axzed\controller\AdminController.class
 com\axzed\interceptor\LoginInterceptor.class
 com\axzed\mapper\AdminMapper.class
 com\axzed\service\impl\AdminServiceImpl.class
+com\axzed\mapper\UserMapper.class
+com\axzed\controller\UserController.class
+com\axzed\service\AdminService.class
+com\axzed\controller\AdminController.class
+com\axzed\controller\CommonController.class
+com\axzed\service\UserService.class
+com\axzed\service\impl\UserServiceImpl.class

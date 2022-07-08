@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.axzed.mapper.UserMapper">
+
+    <resultMap id="admin" type="adminInfo">
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="showAll" resultMap="admin">
+        select * from admin_inf
+    </select>
+
+    <select id="findById" resultMap="admin">
+        select * from admin_inf where id = #{id}
+    </select>
+
+    <update id="modify" parameterType="adminInfo">
+        update admin_inf set nickname = #{nickname}, username = #{username}, password = #{password} where id = #{id}
+    </update>
+
+</mapper>

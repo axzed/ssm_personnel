@@ -57,18 +57,17 @@
                     <li>
                         <a _href="${ctx }/user/list">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>用户列表</cite>
-                            
+                            <cite>管理员操作</cite>
                         </a>
                     </li >
                     <li>
                         <a _href="${ctx }/user/add">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>添加用户</cite>
+                            <cite>添加管理员</cite>
                             
                         </a>
                     </li>
-                   
+
                 </ul>
             </li>
             <li>
@@ -202,7 +201,7 @@
     <!-- 中部结束 -->
     <!-- 底部开始 -->
     <div class="footer">
-        <div class="copyright">Copyright ©2019 Rain</div>  
+        <div class="copyright">Copyright ©2022 axzed</div>
     </div>
     <!-- 底部结束 -->
  

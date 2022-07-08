@@ -52,6 +52,10 @@
     		<mvc:mapping path="/hello" />
     		<bean class="cn.zyj.interceptor.Interceptor2" />
 		</mvc:interceptor> -->
+		<mvc:interceptor>
+			<mvc:mapping path="/mall/*.do"/>
+			<bean class="com.axzed.interceptor.LoginInterceptor"/>
+		</mvc:interceptor>
 
 		<mvc:interceptor>
     		<mvc:mapping path="/**" />

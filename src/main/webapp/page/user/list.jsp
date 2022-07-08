@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <html>
-  
   <head>
     <meta charset="UTF-8">
     <title>用户信息</title>
@@ -15,11 +17,6 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/public/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${ctx}/public/js/xadmin.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   
   <body>
@@ -55,22 +52,23 @@
             <th>
               <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
             </th>
-            <th>ID</th>
-            <th>登录名</th>
-            <th>用户名</th>
+            <th>序号</th>
+            <th>管理员登录名</th>
+            <th>管理员真实姓名</th>
             <th>注册日期</th>
             <th>操作</th>
         </thead>
         <tbody>
-        <c:forEach items="${requestScope.list}" var="dept" varStatus="stat">
-     <tr>
+        <c:forEach items="${requestScope.adminList}" var="admin" varStatus="status">
+          <tr>
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>${dept.id}</td>
-            <td>${dept.loginname }</td>
-            <td>${dept.username }</td>
-            <td>${dept.create_date }</td>
+            <td>${status.count }</td>
+            <td>${admin.username }</td>
+            <td>${admin.nickname }</td>
+            <fmt:setLocale value="zh_cn"/>
+            <td><fmt:formatDate type="both" pattern="yyyy年MM月dd日 hh小时mm分钟ss秒" value="${admin.createTime}"></fmt:formatDate></td>
             
             <!-- <td class="td-status">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td> -->
@@ -79,16 +77,15 @@
                 <i class="layui-icon">&#xe601;</i>
               </a>
               <%-- <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/job/add?id=${dept.id }');" href="javascript:;"> --%>
-              <a title="编辑"  href="${ctx}/notice/add?id=${dept.id }">
+              <a title="编辑"  href="${ctx}/user/update?id=${admin.id }">
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              <a title="删除" onclick="member_del(this,'${dept.id }')" href="javascript:;">
+              <a title="删除" onclick="member_del(this,'${admin.id }')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
           </tr>
-				
-			</c:forEach>
+        </c:forEach>
         
           
           

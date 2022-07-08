@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!doctype html>
 <html lang="en">
     <head>
@@ -156,14 +157,14 @@
         </fieldset>
         <blockquote class="layui-elem-quote layui-quote-nm">这里是底部。</blockquote>
     </div>
-        <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-        </script>
+<%--        <script>--%>
+<%--        var _hmt = _hmt || [];--%>
+<%--        (function() {--%>
+<%--          var hm = document.createElement("script");--%>
+<%--          hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";--%>
+<%--          var s = document.getElementsByTagName("script")[0]; --%>
+<%--          s.parentNode.insertBefore(hm, s);--%>
+<%--        })();--%>
+<%--        </script>--%>
     </body>
 </html>

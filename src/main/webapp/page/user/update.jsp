@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
   
@@ -15,34 +17,29 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/public/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${ctx}/public/js/xadmin.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   
   <body>
     <div class="x-body">
-        <form class="layui-form" method="POST" id="deptForm"  action="${ctx}/user/myupdate">
-        <input type="hidden" name="id" id="id" value="${job.id }" >
+        <form class="layui-form" method="POST" id="deptForm"  action="${ctx}/user/modify">
+        <input type="hidden" name="id" id="id" value="${admin.id }" >
           <div class="layui-form-item">
               <label for="username" class="layui-form-label">
                   <span class="x-red">*</span>登录名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="loginname" name="loginname" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input" value="${job.loginname }">
+                  <input type="text" id="username" name="username" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input" value="${admin.username}">
               </div>
              
           </div>
          <div class="layui-form-item">
               <label for="username" class="layui-form-label">
-                  <span class="x-red">*</span>用户名
+                  <span class="x-red">*</span>真实姓名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="username" name="username" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input" value="${job.username }">
+                  <input type="text" id="nickname" name="nickname" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input" value="${admin.nickname}">
               </div>
              
           </div>
@@ -52,16 +49,14 @@
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="password" name="password" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input" value="${job.password }">
+                  autocomplete="off" class="layui-input" value="${admin.password }">
               </div>
              
           </div>
          
           <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-              </label>
+<%--              <label for="L_repass" class="layui-form-label"></label>--%>
               <input type="submit" value=" 提交" class="layui-btn" lay-filter="add" lay-submit=""/>
-                 
           </div>
       </form>
     </div>
@@ -101,8 +96,6 @@
             });
             return false;
           });
-          
-          
         });
     </script>
     

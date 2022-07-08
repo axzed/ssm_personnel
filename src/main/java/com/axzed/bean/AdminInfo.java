@@ -13,4 +13,5 @@ public class AdminInfo {
     private Date createTime;
     private String editor;
     private Date updateTime;
+    private String nickname;
 }

@@ -1,5 +1,11 @@
+G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\service\UserService.java
 G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\service\AdminService.java
+G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\service\impl\UserServiceImpl.java
+G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\mapper\UserMapper.java
+G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\controller\CommonController.java
 G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\service\impl\AdminServiceImpl.java
 G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\bean\AdminInfo.java
+G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\controller\UserController.java
 G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\mapper\AdminMapper.java
 G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\controller\AdminController.java
+G:\workspace\java\training\ssm_personnel\src\main\java\com\axzed\interceptor\LoginInterceptor.java
