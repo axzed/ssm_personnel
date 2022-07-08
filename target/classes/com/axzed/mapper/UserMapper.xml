@@ -21,4 +21,8 @@
         update admin_inf set nickname = #{nickname}, username = #{username}, password = #{password} where id = #{id}
     </update>
 
+    <select id="search" resultMap="admin">
+        select * from admin_inf where nickname like "%" #{content} "%"
+    </select>
+
 </mapper>

@@ -31,5 +31,13 @@ public class TestAdmin {
         System.out.println(admin);
     }
 
+    @Test
+    public void testSearch() {
+        List<AdminInfo> adminInfos = userService.search("张");
+        for (AdminInfo adminInfo : adminInfos) {
+            System.out.println(adminInfo);
+        }
+    }
+
 
 }

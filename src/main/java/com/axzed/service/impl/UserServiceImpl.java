@@ -47,4 +47,15 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("修改管理员信息异常", e);
         }
     }
+
+    @Override
+    public List<AdminInfo> search(String content) {
+        try {
+            List<AdminInfo> adminInfos = userMapper.search(content);
+            return adminInfos;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("查找管理员异常", e);
+        }
+    }
 }

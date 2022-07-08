@@ -57,7 +57,7 @@
                     <li>
                         <a _href="${ctx }/user/list">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>管理员操作</cite>
+                            <cite>管理员列表</cite>
                         </a>
                     </li >
                     <li>

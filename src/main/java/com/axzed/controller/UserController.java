@@ -40,6 +40,12 @@ public class UserController {
         return "/page/user/update.jsp";
     }
 
+    /**
+     * 修改管理员信息
+     * @param adminInfo
+     * @param model
+     * @return
+     */
     @RequestMapping("/modify")
     public String modify(AdminInfo adminInfo, Model model) {
         int row = userService.modify(adminInfo);
@@ -51,6 +57,14 @@ public class UserController {
             model.addAttribute("errorMsg", "修改管理员信息异常");
             return "/page/user/update.jsp";
         }
+    }
+
+    @RequestMapping("/search")
+    public String search(String content, Model model) {
+        System.out.println(content);
+        List<AdminInfo> adminInfos = userService.search(content);
+        model.addAttribute("adminList", adminInfos);
+        return "/page/user/list.jsp";
     }
 
 }

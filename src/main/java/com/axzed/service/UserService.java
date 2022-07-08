@@ -10,4 +10,7 @@ public interface UserService {
     AdminInfo findById(int id);
 
     int modify(AdminInfo adminInfo);
+
+    List<AdminInfo> search(String content);
+
 }
