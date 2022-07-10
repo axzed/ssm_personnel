@@ -83,6 +83,21 @@ public class UserController {
     }
 
     /**
+     * 批量删除
+     * @param ids
+     */
+    @RequestMapping("/deleteAll")
+    @ResponseBody
+    public void deleteAll(int[] ids) {
+        // 前端通过ajax进行异步调用传入选中的id数组循环调用单个删除方法就可以了
+        for (int id : ids) {
+            System.out.println(id);
+            userService.delete(id);
+        }
+        return;
+    }
+
+    /**
      * 展示添加
      * @return
      */
@@ -96,4 +111,6 @@ public class UserController {
 
         return "/page/user/list.jsp";
     }
+
+
 }

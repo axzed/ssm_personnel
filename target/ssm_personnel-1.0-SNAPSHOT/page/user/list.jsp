@@ -62,7 +62,7 @@
         <c:forEach items="${requestScope.adminList}" var="admin" varStatus="status">
           <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id=${admin.id}><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td>${status.count }</td>
             <td>${admin.username }</td>
@@ -178,14 +178,31 @@
 
 
 
+      //批量删除方法
       function delAll (argument) {
 
-        var data = tableCheck.getData();
-  
+        let data = tableCheck.getData();
+
+        console.log(data);
+
         layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+          //捉到所有被选中的，发异步进行删除
+          $.ajax({
+            url:"${ctx}/user/deleteAll",
+            data:"ids="+data,
+            type:"post",
+            dataType:"text",
+            success:function (data){
+              console.log(data);
+              if (data != "0"){
+                layer.msg('删除成功', {icon: 1});
+                $(".layui-form-checked").not('.header').parents('tr').remove();
+              }
+            },
+            error:function (){
+              alert("删除操作异常");
+            }
+          })
         });
       }
     </script>
