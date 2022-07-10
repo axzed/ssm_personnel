@@ -39,5 +39,11 @@ public class TestAdmin {
         }
     }
 
+    @Test
+    public void testDelete() {
+        int i = userService.delete(7);
+        System.out.println(i);
+    }
+
 
 }

@@ -25,4 +25,8 @@
         select * from admin_inf where nickname like "%" #{content} "%"
     </select>
 
+    <delete id="delete">
+        delete from admin_inf where id = #{id}
+    </delete>
+
 </mapper>

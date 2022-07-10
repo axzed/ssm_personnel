@@ -13,4 +13,5 @@ public interface UserService {
 
     List<AdminInfo> search(String content);
 
+    int delete(int id);
 }

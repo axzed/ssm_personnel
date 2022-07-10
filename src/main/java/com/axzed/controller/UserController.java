@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -59,12 +60,40 @@ public class UserController {
         }
     }
 
+    /**
+     * 管理员信息模糊查询
+     * @param content
+     * @param model
+     * @return
+     */
     @RequestMapping("/search")
     public String search(String content, Model model) {
-        System.out.println(content);
         List<AdminInfo> adminInfos = userService.search(content);
         model.addAttribute("adminList", adminInfos);
         return "/page/user/list.jsp";
     }
 
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public int delete(int id, Model model) {
+        System.out.println(id);
+        int row = userService.delete(id);
+        return row;
+    }
+
+    /**
+     * 展示添加
+     * @return
+     */
+    @RequestMapping("/add")
+    public String add() {
+        return "/page/user/add.jsp";
+    }
+
+    @RequestMapping("/addUserInfo")
+    public String addUserInfo() {
+
+        return "/page/user/list.jsp";
+    }
 }

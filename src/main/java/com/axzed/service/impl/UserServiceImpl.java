@@ -58,4 +58,15 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("查找管理员异常", e);
         }
     }
+
+    @Override
+    public int delete(int id) {
+        try {
+            int row = userMapper.delete(id);
+            return row;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("管理员删除异常", e);
+        }
+    }
 }
