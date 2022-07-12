@@ -9,6 +9,7 @@ public class AdminInfo {
     private Integer id;
     private String username;
     private String password;
+    private Integer status;
     private String creator;
     private Date createTime;
     private String editor;

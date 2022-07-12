@@ -45,5 +45,14 @@ public class TestAdmin {
         System.out.println(i);
     }
 
+    @Test
+    public void testAdd() {
+        AdminInfo adminInfo = new AdminInfo();
+        adminInfo.setUsername("test7");
+        adminInfo.setNickname("李寻欢");
+        adminInfo.setPassword("123");
+        userService.add(adminInfo);
+    }
+
 
 }

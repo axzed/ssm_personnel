@@ -1,13 +1,19 @@
 package com.axzed.controller;
 
 import com.axzed.bean.AdminInfo;
+import com.axzed.common.CommonData;
 import com.axzed.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Currency;
 import java.util.List;
 
 /**
@@ -107,10 +113,54 @@ public class UserController {
     }
 
     @RequestMapping("/addUserInfo")
-    public String addUserInfo() {
-
+    public String addUserInfo(AdminInfo adminInfo) {
+        userService.add(adminInfo);
         return "/page/user/list.jsp";
     }
 
+    @RequestMapping("/updateStatus")
+    @ResponseBody
+    public int updateStatus(String id, String status) {
+        int newId = Integer.parseInt(id);
+        int newStatus = Integer.parseInt(status);
+        int updateStatus = userService.updateStatus(newId, newStatus);
+        return updateStatus;
+    }
+
+    @RequestMapping("/page")
+    public String pageList(@RequestParam(defaultValue = "1") int currentPage, Model model) {
+        int pageSize = CommonData.pageSize;
+        PageHelper.startPage(currentPage, pageSize);
+        List<AdminInfo> adminInfos = userService.showAll();
+        model.addAttribute("adminList", adminInfos);
+        PageInfo<AdminInfo> pageInfo = new PageInfo<>(adminInfos);
+        model.addAttribute("pageInfo", pageInfo);
+        return "/page/user/list.jsp";
+    }
+
+    @RequestMapping("/pageByCondition")
+    public String pageByCondition(@RequestParam(defaultValue = "1") int currentPage,
+                                  AdminInfo adminInfo, Model model, HttpServletRequest request){
+        //拼接查询的url路径进行回传
+        String path = request.getServletPath();
+        StringBuilder stringBuilder = new StringBuilder(path);
+        stringBuilder.append("?page");
+        if (null != adminInfo.getNickname() && !"".equals(adminInfo.getNickname())){
+            stringBuilder.append("&nickname="+adminInfo.getNickname());
+        }
+        String url = stringBuilder.toString();
+        //添加分页功能
+        int pageSize = CommonData.pageSize;
+        PageHelper.startPage(currentPage,pageSize);
+        //省略list数据
+        //List<AdminInfo> adminInfos = userService.showAll();
+        List<AdminInfo> adminInfos = userService.pageByCondition(adminInfo);
+        model.addAttribute("adminList",adminInfos);
+        PageInfo<AdminInfo> pageInfo = new PageInfo<>(adminInfos);
+        model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("nickname",adminInfo.getNickname());
+        model.addAttribute("url",url);
+        return "/page/user/list.jsp";
+    }
 
 }

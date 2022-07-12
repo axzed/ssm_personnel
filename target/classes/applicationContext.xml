@@ -33,18 +33,18 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="typeAliasesPackage" value="com.axzed.bean"/>
         <!--分页插件-->
-<!--        <property name="plugins">-->
-<!--            <array>-->
-<!--                <bean class="com.github.pagehelper.PageInterceptor">-->
-<!--                    <property name="properties">-->
-<!--                        <props>-->
-<!--                            <prop key="helperDialect">mysql</prop>-->
-<!--                            <prop key="reasonable">true</prop>-->
-<!--                        </props>-->
-<!--                    </property>-->
-<!--                </bean>-->
-<!--            </array>-->
-<!--        </property>-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <props>
+                            <prop key="helperDialect">mysql</prop>
+                            <prop key="reasonable">true</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
 
     <!--加载mybatis映射配置的扫描，将其作为spring的bean进行管理-->

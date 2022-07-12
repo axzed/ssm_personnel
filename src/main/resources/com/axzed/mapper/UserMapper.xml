@@ -29,4 +29,18 @@
         delete from admin_inf where id = #{id}
     </delete>
 
+    <insert id="add" parameterType="adminInfo">
+        insert into admin_inf (username, nickname, password, creator, status) value (#{username}, #{nickname}, #{password}, #{creator}, #{status})
+    </insert>
+
+    <!--   根据条件查询所有分页数据-->
+    <select id="pageByCondition" resultMap="admin">
+        select * from admin_inf
+        <where>
+            <if test="nickname!=null and nickname !=''">
+                nickname like "%" #{nickname} "%"
+            </if>
+        </where>
+    </select>
+
 </mapper>

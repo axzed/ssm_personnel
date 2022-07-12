@@ -14,4 +14,10 @@ public interface UserService {
     List<AdminInfo> search(String content);
 
     int delete(int id);
+
+    void add(AdminInfo adminInfo);
+
+    int updateStatus(int newId, int newStatus);
+
+    List<AdminInfo> pageByCondition(AdminInfo adminInfo);
 }

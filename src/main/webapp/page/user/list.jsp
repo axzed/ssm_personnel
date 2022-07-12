@@ -27,22 +27,22 @@
           <cite>用户信息</cite></a>
       </span>
       <%-- <button type="button" onclick="location.href='${ctx}/user/add'" class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:innert;margin-left:75%;;"  ><i class="layui-icon"></i>增加</button> --%>
-      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="${ctx }/user/list" title="刷新">
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="${ctx }/user/pageByCondition" title="刷新">
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
     </div>
     <div class="x-body">
       <div class="layui-row" style="" align="center">
-        <form class="layui-form layui-col-md12 x-so" method="post" action="${ctx }/user/search">
+        <form class="layui-form layui-col-md12 x-so" method="post" action="${ctx }/user/pageByCondition">
 <%--          <input class="layui-input" placeholder="开始日" name="start" id="start">--%>
 <%--          <input class="layui-input" placeholder="截止日" name="end" id="end">--%>
-          <input type="text" name="content" style="width:50%;"  placeholder="请输入查找管理员的名字" autocomplete="off" class="layui-input">
+          <input type="text" name="nickname" style="width:50%;"  placeholder="请输入查找管理员的名字" autocomplete="off" class="layui-input" value="${nickname}">
           <button type="submit" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
         <button class="layui-btn" onclick="x_admin_show('添加用户','${ctx}/user/add')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：n 条</span>
+        <span class="x-right" style="line-height:40px">共有数据：${pageInfo.total} 条</span>
       </xblock>
      
       
@@ -70,12 +70,20 @@
             <fmt:setLocale value="zh_cn"/>
             <td><fmt:formatDate type="both" pattern="yyyy年MM月dd日 hh小时mm分钟ss秒" value="${admin.createTime}"></fmt:formatDate></td>
             
-            <!-- <td class="td-status">
-              <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td> -->
+<%--            <td class="td-status">--%>
+<%--            <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>--%>
             <td class="td-manage">
-              <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                <i class="layui-icon">&#xe601;</i>
-              </a>
+              <c:if test="${admin.status ==1}">
+                <a onclick="member_stop(this,${admin.id})" href="javascript:;"  title="启用">
+                  <i class="layui-icon layui-icon-face-smile"  style="color: green;">&#xe6af;</i>
+                </a>
+              </c:if>
+              <c:if test="${admin.status == 0}">
+                <a onclick="member_stop(this,${admin.id})" href="javascript:;"  title="禁用">
+                  <i class="layui-icon layui-icon-face-cry"  style="color: red;">&#xe69c;</i>
+                </a>
+              </c:if>
+
               <%-- <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/job/add?id=${dept.id }');" href="javascript:;"> --%>
               <a title="编辑"  href="${ctx}/user/update?id=${admin.id }">
                 <i class="layui-icon">&#xe642;</i>
@@ -92,15 +100,67 @@
           
         </tbody>
       </table>
+<%--      <div class="page">--%>
+<%--        <div>--%>
+<%--          <a class="prev" href="">&lt;&lt;</a>--%>
+<%--          <a class="num" href="">1</a>--%>
+<%--          <span class="current">2</span>--%>
+<%--          <a class="num" href="">3</a>--%>
+<%--          <a class="num" href="">489</a>--%>
+<%--          <a class="next" href="">&gt;&gt;</a>--%>
+<%--        </div>--%>
+<%--      </div>--%>
+
       <div class="page">
-        <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
-        </div>
+        <%-- 设置页码数之前按钮 --%>
+        <a href="${pageContext.request.contextPath}${url}&currentPage=1">首页</a>
+        <c:if test="${pageInfo.pageNum > 1 }">
+          <a href="${pageContext.request.contextPath}${url}&currentPage=${pageInfo.pageNum-1 }">上一页</a>
+        </c:if>
+
+        <%-- 根据公式计算begin、end，存到page域中 --%>
+        <c:choose>
+          <%-- 如果总页数不足10页，那么把所有的页数都显示出来！ --%>
+          <c:when test="${pageInfo.pages <= 10 }">
+            <c:set var="begin" value="1" />
+            <c:set var="end" value="${pageInfo.pages }" />
+          </c:when>
+          <c:otherwise>
+            <%-- 当总页数大于10时，通过公式计算出begin和end --%>
+            <c:set var="begin" value="${pageInfo.pageNum-5 }" />
+            <c:set var="end" value="${pageInfo.pageNum+4 }" />
+            <%-- 计算中若 头溢出 --%>
+            <c:if test="${begin < 1 }">
+              <c:set var="begin" value="1" />
+              <c:set var="end" value="10" />
+            </c:if>
+            <%-- 计算中若 尾溢出 --%>
+            <c:if test="${end > pageInfo.pages }">
+              <c:set var="begin" value="${pageInfo.pages - 9 }" />
+              <c:set var="end" value="${pageInfo.pages }" />
+            </c:if>
+          </c:otherwise>
+        </c:choose>
+
+        <%-- 根据page域中begin、end值，循环遍历页码列表 --%>
+        <c:forEach var="i" begin="${begin }" end="${end }">
+          <c:choose>
+            <%-- 当前页码数按钮变色，且链接不跳转 --%>
+            <c:when test="${i eq pageInfo.pageNum }">
+              <a href="javascript:void(0);" style="color:red">${i}</a>
+            </c:when>
+            <%-- 遍历生成的页码数上，绑上跳转路径与当前页数 --%>
+            <c:otherwise>
+              <a href="${pageContext.request.contextPath}${url}&currentPage=${i}">${i}</a>
+            </c:otherwise>
+          </c:choose>
+        </c:forEach>
+
+        <%-- 设置页码数之后按钮 --%>
+        <c:if test="${pageInfo.pageNum < pageInfo.pages }">
+          <a href="${pageContext.request.contextPath}${url}&currentPage=${pageInfo.pageNum+1}">下一页</a>
+        </c:if>
+        <a href="${pageContext.request.contextPath}${url}&currentPage=${pageInfo.pages}">尾页</a>
       </div>
 
     </div>
@@ -119,28 +179,57 @@
         });
       });
 
-       /*用户-停用*/
+      /*用户-停用*/
       function member_stop(obj,id){
-          layer.confirm('确认要停用吗？',function(index){
+        layer.confirm('确认更改管理员状态？',function(index){
 
-              if($(obj).attr('title')=='启用'){
+          let status = 1;//管理员状态信息（1为启用，0为禁用）
 
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
+          if($(obj).attr('title')=='启用') {
+            status = 1;
+          }else {
+            status = 0;
+          }
 
+          //发异步把用户状态进行更改
+          $.ajax({
+
+            url:"${ctx}/user/updateStatus",
+            data:"id="+id + "&status="+status,
+            type:"post",
+            dataType:"text",
+            success:function (data){
+
+              console.log(data);
+
+              if (data == "0" ){
+
+                $(obj).attr('title','停用');
+                $(obj).find('i').addClass('layui-icon-face-cry').css("color","red").html('&#xe69c;');
                 $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
                 layer.msg('已停用!',{icon: 5,time:1000});
 
-              }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
+              }else if (data == "1"){
 
+                $(obj).attr('title','启用')
+                $(obj).find('i').addClass('layui-icon-face-smile').css("color","green").html('&#xe6af;');
                 $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
+                layer.msg('已启用!',{icon: 6,time:1000});
+
+              }else{
+
+                layer.msg('状态修改未成功!',{icon: 2,time:1000});
+
               }
-              
-          });
+
+            },
+            error:function (){
+              layer.msg('程序异常!',{icon: 2,time:1000});
+            }
+
+          })
+
+        })
       }
 
       /*用户-删除*/

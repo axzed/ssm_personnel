@@ -55,7 +55,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/user/list">
+                        <a _href="${ctx }/user/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>管理员列表</cite>
                         </a>
@@ -99,7 +99,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/job/list">
+                        <a _href="${ctx }/job/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>职位列表</cite>
                         </a>
