@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
   
@@ -15,36 +18,41 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/public/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${ctx}/public/js/xadmin.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   
   <body>
     <div class="x-body">
-        <form class="layui-form" method="POST" id="deptForm"  action="${ctx}/job/add">
+        <form class="layui-form" method="POST" id="deptForm"  action="${ctx}/job/addJobInfo">
         <input type="hidden" name="id" id="id" value="${job.id }" >
           <div class="layui-form-item">
-              <label for="username" class="layui-form-label">
+              <label for="name" class="layui-form-label">
                   <span class="x-red">*</span>职位名称
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="name" name="name" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input" value="${job.name }">
+                  autocomplete="off" class="layui-input" value="">
               </div>
              
           </div>
           <div class="layui-form-item">
-              <label for="phone" class="layui-form-label">
-                  <span class="x-red">*</span>详细信息
+              <label for="remark" class="layui-form-label">
+                  <span class="x-red">*</span>职位详细信息
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="remark" name="remark" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input" value="${job.remark }">
+                  autocomplete="off" class="layui-input" value="">
               </div>
             
+          </div>
+          <div class="layui-form-item">
+              <label for="deptId" class="layui-form-label">
+                  <span class="x-red">*</span>职位所属部门ID
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="deptId" name="deptId" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input" value="">
+              </div>
+
           </div>
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">

@@ -111,6 +111,7 @@
 <%--        </div>--%>
 <%--      </div>--%>
 
+<%--      分页开始--%>
       <div class="page">
         <%-- 设置页码数之前按钮 --%>
         <a href="${pageContext.request.contextPath}${url}&currentPage=1">首页</a>
@@ -162,8 +163,9 @@
         </c:if>
         <a href="${pageContext.request.contextPath}${url}&currentPage=${pageInfo.pages}">尾页</a>
       </div>
-
+<%--      分页结束--%>
     </div>
+
     <script>
       layui.use('laydate', function(){
         var laydate = layui.laydate;

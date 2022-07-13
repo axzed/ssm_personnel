@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-  
+
   <head>
     <meta charset="UTF-8">
     <title>员工列表</title>
@@ -21,7 +21,7 @@
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  
+
   <body>
     <div class="x-nav">
       <span class="layui-breadcrumb">
@@ -46,8 +46,8 @@
         <button class="layui-btn" onclick="x_admin_show('添加用户','${ctx}/dept/add')"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
       </xblock> --%>
-     
-      
+
+
       <table class="layui-table">
         <thead>
           <tr>
@@ -56,43 +56,43 @@
             </th>
             <th>姓名</th>
             <th>性别</th>
-         <th>手机号码</th>
-         <th>邮箱</th>
-         <th>职位</th>
-         <th>学历</th>
-         <th>身份证号码</th>
-         <th>部门</th>
-         <th>联系地址</th>
-         <th>建档日期</th>
+            <th>手机号码</th>
+            <th>邮箱</th>
+            <th>职位</th>
+            <th>学历</th>
+            <th>身份证号码</th>
+            <th>部门</th>
+            <th>联系地址</th>
+            <th>建档日期</th>
          <!-- <th>状态</th> -->
             <th>操作</th>
         </thead>
         <tbody>
-        <c:forEach items="${requestScope.list}" var="dept" varStatus="stat">
+        <c:forEach items="${requestScope.empList}" var="emp" varStatus="status">
      <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='${emp.id}'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>${dept.name }</td>
+            <td>${emp.name }</td>
             <td>
              <c:choose>
-					        	<c:when test="${dept.sex == 1 }">男</c:when>
+					        	<c:when test="${emp.sex == 1 }">男</c:when>
 					        	<c:otherwise>女</c:otherwise>
 					  </c:choose>
-           
+
             </td>
-            <td>${dept.phone }</td>
-            <td>${dept.email }</td>
-            <td>${dept.job.name }</td>
-            <td>${dept.education }</td>
-            <td>${dept.card_id }</td>
-            <td>${dept.dept.name }</td>
-            <td>${dept.address }</td>
-            <td>${dept.create_date }</td>
-            
+            <td>${emp.phone }</td>
+            <td>${emp.email }</td>
+            <td>${emp.job.name }</td>
+            <td>${emp.education }</td>
+            <td>${emp.card_id }</td>
+            <td>${emp.dept.name }</td>
+            <td>${emp.address }</td>
+            <td>${emp.create_date }</td>
+
            <!--  <td class="td-status">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td> -->
-             
+
                <c:choose>
 			<c:when test="${sessionScope.tip  == 1 }">
 					        	 <td class="td-manage">
@@ -108,16 +108,16 @@
               </a>
             </td>
 			</c:when>
-					        
+
 					  </c:choose>
-           
+
           </tr>
-				
+
 			</c:forEach>
-        
-          
-          
-          
+
+
+
+
         </tbody>
       </table>
      <!--  <div class="page">
@@ -135,7 +135,7 @@
     <script>
       layui.use('laydate', function(){
         var laydate = layui.laydate;
-        
+
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
@@ -167,7 +167,7 @@
                 $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
                 layer.msg('已启用!',{icon: 5,time:1000});
               }
-              
+
           });
       }
 
@@ -187,7 +187,7 @@
       function delAll (argument) {
 
         var data = tableCheck.getData();
-  
+
         layer.confirm('确认要删除吗？'+data,function(index){
             //捉到所有被选中的，发异步进行删除
             layer.msg('删除成功', {icon: 1});

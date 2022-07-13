@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.axzed.mapper.JobMapper">
+    
+    <resultMap id="job" type="JobInfo">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
+        <result column="dept_id" property="deptId"/>
+        <association property="deptInfo" javaType="deptInfo">
+            <result column="dname" property="name"/>
+        </association>
+    </resultMap>
+
+    <select id="showAll" resultMap="job">
+        select job_inf.*, dept_inf.name as dname from job_inf left join dept_inf on job_inf.dept_id = dept_inf.id
+--         select * from job_inf
+    </select>
+
+    <select id="pageByCondition" resultMap="job">
+        select job_inf.*, dept_inf.name as dname from job_inf left join dept_inf on job_inf.dept_id = dept_inf.id
+        <where>
+            <if test="name != null and name != ''">
+                job_inf.name like "%" #{name} "%"
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="jobInfo">
+        insert into job_inf (name, remark, dept_id) value (#{name}, #{remark}, #{deptId})
+    </insert>
+
+    <delete id="delete">
+        delete from job_inf where id = #{id}
+    </delete>
+
+    <select id="findById" resultMap="job">
+        select * from job_inf where id = #{id}
+    </select>
+
+    <update id="modify" parameterType="JobInfo">
+        update job_inf set name = #{name}, remark = #{remark}, dept_id = #{deptId} where id = #{id}
+    </update>
+
+</mapper>

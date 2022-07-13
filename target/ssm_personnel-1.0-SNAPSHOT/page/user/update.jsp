@@ -21,7 +21,7 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form" method="POST" id="deptForm"  action="${ctx}/user/modify">
+        <form class="layui-form" method="POST" id="userForm"  action="${ctx}/user/modify">
         <input type="hidden" name="id" id="id" value="${admin.id }" >
           <div class="layui-form-item">
               <label for="username" class="layui-form-label">
@@ -61,6 +61,7 @@
       </form>
     </div>
     <script>
+
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form

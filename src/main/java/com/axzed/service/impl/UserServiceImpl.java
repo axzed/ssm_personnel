@@ -16,7 +16,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<AdminInfo> showAll() {
-
         try {
             List<AdminInfo> adminInfos = userMapper.showAll();
             return adminInfos;
@@ -33,7 +32,7 @@ public class UserServiceImpl implements UserService {
             return adminInfo;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("更改管理员信息异常", e);
+            throw new RuntimeException("查询管理员信息异常", e);
         }
     }
 

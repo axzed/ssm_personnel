@@ -78,7 +78,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/dept/list">
+                        <a _href="${ctx }/dept/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>部门列表</cite>
                         </a>
@@ -121,7 +121,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/employee/list">
+                        <a _href="${ctx }/employee/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>员工列表</cite>
                         </a>

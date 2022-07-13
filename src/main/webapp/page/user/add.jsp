@@ -21,7 +21,7 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form" method="POST" id="deptForm"  action="${ctx}/user/addUserInfo">
+        <form class="layui-form" method="POST" id="userForm"  action="${ctx}/user/addUserInfo">
         <input type="hidden" name="id" id="id" value="${admin.id }" >
         <input type="hidden" name="creator" id="creator" value="${admin.username }">
         <input type="hidden" name="status" id="status" value="1">
@@ -35,7 +35,7 @@
               </div>
           </div>
          <div class="layui-form-item">
-              <label for="username" class="layui-form-label">
+              <label for="nickname" class="layui-form-label">
                   <span class="x-red">*</span>真实名称
               </label>
               <div class="layui-input-inline">
@@ -44,7 +44,7 @@
               </div>
           </div>
            <div class="layui-form-item">
-              <label for="username" class="layui-form-label">
+              <label for="password" class="layui-form-label">
                   <span class="x-red">*</span>密码
               </label>
               <div class="layui-input-inline">
@@ -56,11 +56,32 @@
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
-              <input type="submit" value=" 提交" class="layui-btn" lay-filter="add" lay-submit=""/>
+              <input type="submit" id="submitAdd" value=" 提交" class="layui-btn" lay-filter="add" lay-submit=""/>
           </div>
       </form>
     </div>
     <script>
+
+        /*新增用户异步请求*/
+        $("#submitAdd").click(function (){
+            let targetUrl =  $("#userForm").attr("action")
+            let data = $("#userForm").serialize()
+            $.ajax({
+                type: 'post',
+                url: targetUrl,
+                cache: false,
+                data: data,
+                success: function(data) {
+                    console.log('success')
+                },
+                error: function() {
+                    alert('请求失败')
+                }
+            })
+          }
+        )
+
+
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
