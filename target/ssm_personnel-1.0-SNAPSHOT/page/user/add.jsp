@@ -61,27 +61,6 @@
       </form>
     </div>
     <script>
-
-        /*新增用户异步请求*/
-        $("#submitAdd").click(function (){
-            let targetUrl =  $("#userForm").attr("action")
-            let data = $("#userForm").serialize()
-            $.ajax({
-                type: 'post',
-                url: targetUrl,
-                cache: false,
-                data: data,
-                success: function(data) {
-                    console.log('success')
-                },
-                error: function() {
-                    alert('请求失败')
-                }
-            })
-          }
-        )
-
-
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form

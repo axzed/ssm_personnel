@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 
@@ -15,11 +18,6 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/public/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${ctx}/public/js/xadmin.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -29,23 +27,23 @@
         <a>
           <cite>员工列表</cite></a>
       </span>
-      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="${ctx }/employee/list" title="刷新">
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="${ctx }/employee/pageByCondition" title="刷新">
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
     </div>
     <div class="x-body">
       <div class="layui-row" style="" align="center">
-        <form class="layui-form layui-col-md12 x-so" method="get" action="${ctx }/employee/list">
+        <form class="layui-form layui-col-md12 x-so" method="get" action="${ctx }/employee/pageByCondition">
           <!-- <input class="layui-input" placeholder="开始日" name="start" id="start">
           <input class="layui-input" placeholder="截止日" name="end" id="end"> -->
-          <input type="text" name="content" style="width:50%;"  placeholder="请输入查找员工姓名" autocomplete="off" class="layui-input">
+          <input type="text" name="name" style="width:50%;"  placeholder="请输入查找员工姓名" autocomplete="off" class="layui-input" value="${name}">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
-      <%-- <xblock>
- <!--        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
-        <button class="layui-btn" onclick="x_admin_show('添加用户','${ctx}/dept/add')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
-      </xblock> --%>
+      <xblock>
+          <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+          <button class="layui-btn" onclick="x_admin_show('添加用户','${ctx}/employee/add')"><i class="layui-icon"></i>添加</button>
+          <span class="x-right" style="line-height:40px">共有数据：${pageInfo.total} 条</span>
+      </xblock>
 
 
       <table class="layui-table">
@@ -75,27 +73,26 @@
             </td>
             <td>${emp.name }</td>
             <td>
-             <c:choose>
-					        	<c:when test="${emp.sex == 1 }">男</c:when>
-					        	<c:otherwise>女</c:otherwise>
-					  </c:choose>
-
+                <c:choose>
+                    <c:when test="${emp.sex == 1 }">男</c:when>
+					<c:otherwise>女</c:otherwise>
+			    </c:choose>
             </td>
             <td>${emp.phone }</td>
             <td>${emp.email }</td>
-            <td>${emp.job.name }</td>
+            <td>${emp.jobInfo.name }</td>
             <td>${emp.education }</td>
-            <td>${emp.card_id }</td>
-            <td>${emp.dept.name }</td>
+            <td>${emp.cardId }</td>
+            <td>${emp.deptInfo.name }</td>
             <td>${emp.address }</td>
-            <td>${emp.create_date }</td>
+            <td><fmt:formatDate type="both" value="${emp.createDate }"></fmt:formatDate></td>
 
            <!--  <td class="td-status">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td> -->
 
-               <c:choose>
-			<c:when test="${sessionScope.tip  == 1 }">
-					        	 <td class="td-manage">
+<%--               <c:choose>--%>
+<%--			<c:when test="${sessionScope.tip  == 1 }">--%>
+			<td class="td-manage">
              <!--  <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                 <i class="layui-icon">&#xe601;</i>
               </a> -->
@@ -107,9 +104,9 @@
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
-			</c:when>
+<%--			</c:when>--%>
 
-					  </c:choose>
+<%--					  </c:choose>--%>
 
           </tr>
 
@@ -130,6 +127,62 @@
           <a class="next" href="">&gt;&gt;</a>
         </div>
       </div> -->
+
+
+        <%--      分页开始--%>
+        <div class="page">
+            <%-- 设置页码数之前按钮 --%>
+            <a href="${pageContext.request.contextPath}${url}&currentPage=1">首页</a>
+            <c:if test="${pageInfo.pageNum > 1 }">
+                <a href="${pageContext.request.contextPath}${url}&currentPage=${pageInfo.pageNum-1 }">上一页</a>
+            </c:if>
+
+            <%-- 根据公式计算begin、end，存到page域中 --%>
+            <c:choose>
+                <%-- 如果总页数不足10页，那么把所有的页数都显示出来！ --%>
+                <c:when test="${pageInfo.pages <= 10 }">
+                    <c:set var="begin" value="1" />
+                    <c:set var="end" value="${pageInfo.pages }" />
+                </c:when>
+                <c:otherwise>
+                    <%-- 当总页数大于10时，通过公式计算出begin和end --%>
+                    <c:set var="begin" value="${pageInfo.pageNum-5 }" />
+                    <c:set var="end" value="${pageInfo.pageNum+4 }" />
+                    <%-- 计算中若 头溢出 --%>
+                    <c:if test="${begin < 1 }">
+                        <c:set var="begin" value="1" />
+                        <c:set var="end" value="10" />
+                    </c:if>
+                    <%-- 计算中若 尾溢出 --%>
+                    <c:if test="${end > pageInfo.pages }">
+                        <c:set var="begin" value="${pageInfo.pages - 9 }" />
+                        <c:set var="end" value="${pageInfo.pages }" />
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
+
+            <%-- 根据page域中begin、end值，循环遍历页码列表 --%>
+            <c:forEach var="i" begin="${begin }" end="${end }">
+                <c:choose>
+                    <%-- 当前页码数按钮变色，且链接不跳转 --%>
+                    <c:when test="${i eq pageInfo.pageNum }">
+                        <a href="javascript:void(0);" style="color:red">${i}</a>
+                    </c:when>
+                    <%-- 遍历生成的页码数上，绑上跳转路径与当前页数 --%>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}${url}&currentPage=${i}">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <%-- 设置页码数之后按钮 --%>
+            <c:if test="${pageInfo.pageNum < pageInfo.pages }">
+                <a href="${pageContext.request.contextPath}${url}&currentPage=${pageInfo.pageNum+1}">下一页</a>
+            </c:if>
+            <a href="${pageContext.request.contextPath}${url}&currentPage=${pageInfo.pages}">尾页</a>
+        </div>
+        <%--      分页结束--%>
+
 
     </div>
     <script>

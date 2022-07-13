@@ -57,8 +57,8 @@ public class UserController {
         int row = userService.modify(adminInfo);
         if (row != 0) {
             List<AdminInfo> adminInfos = userService.showAll();
-            model.addAttribute("adminList", adminInfos);
-            return "/page/user/list.jsp";
+            model.addAttribute("admin", adminInfos);
+            return "redirect:/user/pageByCondition";
         } else {
             model.addAttribute("errorMsg", "修改管理员信息异常");
             return "/page/user/update.jsp";

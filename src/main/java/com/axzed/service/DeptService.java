@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface DeptService {
 
+    List<DeptInfo> showAll();
+
     List<DeptInfo> pageByCondition(DeptInfo deptInfo);
 
     void add(DeptInfo deptInfo);

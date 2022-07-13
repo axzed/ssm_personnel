@@ -16,6 +16,17 @@ public class DeptServiceImpl implements DeptService {
     private DeptMapper deptMapper;
 
     @Override
+    public List<DeptInfo> showAll() {
+        try {
+            List<DeptInfo> deptInfos = deptMapper.showAll();
+            return deptInfos;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("查询部门列表异常", e);
+        }
+    }
+
+    @Override
     public List<DeptInfo> pageByCondition(DeptInfo deptInfo) {
         try {
             List<DeptInfo> deptInfos = deptMapper.pageByCondition(deptInfo);

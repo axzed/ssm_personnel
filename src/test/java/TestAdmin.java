@@ -54,5 +54,16 @@ public class TestAdmin {
         userService.add(adminInfo);
     }
 
+    @Test
+    public void testModify() {
+        AdminInfo adminInfo = new AdminInfo();
+        adminInfo.setId(18);
+        adminInfo.setUsername("test09");
+        adminInfo.setNickname("笑嘻嘻");
+        adminInfo.setPassword("123");
+        int i = userService.modify(adminInfo);
+        System.out.println(i);
+    }
+
 
 }

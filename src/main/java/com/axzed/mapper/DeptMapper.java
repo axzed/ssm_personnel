@@ -11,4 +11,6 @@ public interface DeptMapper {
     void add(DeptInfo deptInfo);
 
     int delete(int id);
+
+    List<DeptInfo> showAll();
 }

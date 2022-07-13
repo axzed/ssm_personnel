@@ -61,7 +61,6 @@
       </form>
     </div>
     <script>
-
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -87,8 +86,8 @@
         	  
             console.log(data);
             //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
-            	document.getElementById('deptForm').submit();
+            layer.alert("修改成功", {icon: 6},function () {
+            	document.getElementById('userForm').submit();
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame
