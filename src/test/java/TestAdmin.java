@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,9 +49,13 @@ public class TestAdmin {
     @Test
     public void testAdd() {
         AdminInfo adminInfo = new AdminInfo();
-        adminInfo.setUsername("test7");
-        adminInfo.setNickname("李寻欢");
+        adminInfo.setUsername("test11");
+        adminInfo.setNickname("王某某");
         adminInfo.setPassword("123");
+        adminInfo.setCreator("root");
+        Date date = new Date();
+        adminInfo.setCreateTime(date);
+        adminInfo.setStatus(1);
         userService.add(adminInfo);
     }
 

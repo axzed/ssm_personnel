@@ -22,10 +22,10 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form" method="POST" id="deptForm"  action="${ctx}/employee/add">
+        <form class="layui-form" method="POST" id="empForm"  action="${ctx}/employee/add">
         <input type="hidden" name="id" id="id" value="${job.id }" >
           <div class="layui-form-item" >
-              <label for="username" class="layui-form-label">
+              <label for="name" class="layui-form-label">
                   <span class="x-red">*</span>姓名
               </label>
               <div class="layui-input-inline">
@@ -35,7 +35,7 @@
              
           </div>
           <div class="layui-form-item" >
-              <label for="username" class="layui-form-label">
+              <label for="password" class="layui-form-label">
                   <span class="x-red">*</span>密码
               </label>
               <div class="layui-input-inline">
@@ -45,25 +45,25 @@
              
           </div>
           <div class="layui-form-item" >
-              <label for="phone" class="layui-form-label">
+              <label for="cardId" class="layui-form-label">
                   <span class="x-red">*</span>身份证号码
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="card_id" name="card_id" required="" lay-verify="required"
+                  <input type="text" id="cardId" name="cardId" required="" lay-verify="required"
                   autocomplete="off" class="layui-input" value="${job.card_id }">
               </div>
           </div>
            <div class="layui-form-item">
-              <label for="phone" class="layui-form-label">
+              <label for="sex" class="layui-form-label">
                   <span class="x-red">*</span>性别
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="sex" name="sex" placeholder="男性请输入1，女性请输入2" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input" value="${job.sex }">
+                  <input type="radio" name="sex" value="1" title="男">
+                  <input type="radio" name="sex" value="2" title="女" checked>
               </div>
           </div>
            <div class="layui-form-item">
-              <label for="phone" class="layui-form-label">
+              <label for="education" class="layui-form-label">
                   <span class="x-red">*</span>学历
               </label>
               <div class="layui-input-inline">
@@ -72,7 +72,7 @@
               </div>
           </div>
            <div class="layui-form-item">
-              <label for="phone" class="layui-form-label">
+              <label for="email" class="layui-form-label">
                   <span class="x-red">*</span>邮箱
               </label>
               <div class="layui-input-inline">
@@ -90,7 +90,7 @@
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="phone" class="layui-form-label">
+              <label for="address" class="layui-form-label">
                   <span class="x-red">*</span>联系地址
               </label>
               <div class="layui-input-inline">
@@ -99,25 +99,26 @@
               </div>
           </div>
   			<div class="layui-form-item">
-              <label for="username" class="layui-form-label">
+              <label for="jobId" class="layui-form-label">
                   <span class="x-red">*</span>职位
               </label>
               <div class="layui-input-inline">
-                  <select id="job_id" name="job_id" class="valid" >
-                    <c:forEach items="${requestScope.job_list}" var="line" varStatus="stat">
-                    <option value="${line.id}" <c:if test="${job.job_id == line.id }">selected</c:if>>${line.name}</option>
+                  <select id="jobId" name="job.id" class="valid" >
+                    <c:forEach items="${requestScope.jobInfos}" var="job" varStatus="stat">
+
+                        <option value="${job.id}">${job.name}</option>
                     </c:forEach>
                   </select>
               </div>
           </div>
             <div class="layui-form-item">
-              <label for="username" class="layui-form-label">
+              <label for="deptId" class="layui-form-label">
                   <span class="x-red">*</span>部门
               </label>
               <div class="layui-input-inline">
-                  <select id="dept_id" name="dept_id" class="valid">
-                    <c:forEach items="${requestScope.dept_list}" var="line" varStatus="stat">
-                    <option value="${line.id}" <c:if test="${job.dept_id == line.id }">selected</c:if>>${line.name}</option>
+                  <select id="deptId" name="dept.id" class="valid">
+                    <c:forEach items="${requestScope.deptInfos}" var="dept" varStatus="stat">
+                    <option value="${dept.id}">${dept.name}</option>
                     </c:forEach>
                   </select>
               </div>
@@ -125,7 +126,7 @@
           
 
           <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
+              <label class="layui-form-label">
               </label>
               <input type="submit" value=" 提交" class="layui-btn" lay-filter="add" lay-submit=""/>
                  
@@ -159,7 +160,7 @@
             console.log(data);
             //发异步，把数据提交给php
             layer.alert("增加成功", {icon: 6},function () {
-            	document.getElementById('deptForm').submit();
+            	document.getElementById('empForm').submit();
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame

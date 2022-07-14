@@ -1,5 +1,6 @@
 package com.axzed.service.impl;
 
+import com.axzed.bean.AdminInfo;
 import com.axzed.bean.DeptInfo;
 import com.axzed.bean.JobInfo;
 import com.axzed.mapper.DeptMapper;
@@ -55,6 +56,28 @@ public class DeptServiceImpl implements DeptService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("部门删除异常", e);
+        }
+    }
+
+    @Override
+    public DeptInfo findById(int id) {
+        try {
+            DeptInfo deptInfo  = deptMapper.findById(id);
+            return deptInfo;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("查询部门信息异常", e);
+        }
+    }
+
+    @Override
+    public int modify(DeptInfo deptInfo) {
+        try {
+            int row = deptMapper.modify(deptInfo);
+            return row;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("修改部门信息异常", e);
         }
     }
 

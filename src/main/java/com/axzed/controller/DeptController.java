@@ -1,5 +1,6 @@
 package com.axzed.controller;
 
+import com.axzed.bean.AdminInfo;
 import com.axzed.bean.DeptInfo;
 import com.axzed.bean.JobInfo;
 import com.axzed.common.CommonData;
@@ -56,7 +57,7 @@ public class DeptController {
     @RequestMapping("/addDeptInfo")
     public String addDeptInfo(DeptInfo deptInfo) {
         deptService.add(deptInfo);
-        return "/page/dept/list.jsp";
+        return "redirect:/dept/pageByCondition";
     }
 
     @RequestMapping("/delete")
@@ -81,6 +82,26 @@ public class DeptController {
             System.out.println(i);
         }
         return;
+    }
+
+    @RequestMapping("/update")
+    public String update(int id, Model model) {
+        DeptInfo deptInfo = deptService.findById(id);
+        model.addAttribute("dept", deptInfo);
+        return "/page/dept/update.jsp";
+    }
+
+    @RequestMapping("/modify")
+    public String modify(DeptInfo deptInfo, Model model) {
+        int row = deptService.modify(deptInfo);
+        if (row != 0) {
+            List<DeptInfo> deptInfos = deptService.showAll();
+            model.addAttribute("dept", deptInfos);
+            return "redirect:/dept/pageByCondition";
+        } else {
+            model.addAttribute("errorMsg", "修改管理员信息异常");
+            return "/page/dept/update.jsp";
+        }
     }
 
 }

@@ -18,7 +18,7 @@
     </select>
 
     <update id="modify" parameterType="adminInfo">
-        update admin_inf set nickname = #{nickname}, username = #{username}, password = #{password} where id = #{id}
+        update admin_inf set nickname = #{nickname}, username = #{username}, password = #{password}, status = #{status} where id = #{id}
     </update>
 
     <select id="search" resultMap="admin">
@@ -30,7 +30,8 @@
     </delete>
 
     <insert id="add" parameterType="adminInfo">
-        insert into admin_inf (username, nickname, password, creator, status) value (#{username}, #{nickname}, #{password}, #{creator}, #{status})
+        insert into admin_inf(username,nickname,password,status,creator,create_time)
+        values(#{username},#{nickname},#{password},#{status},#{creator},#{createTime})
     </insert>
 
     <!--   根据条件查询所有分页数据-->

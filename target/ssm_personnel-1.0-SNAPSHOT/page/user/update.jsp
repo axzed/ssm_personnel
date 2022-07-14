@@ -53,10 +53,19 @@
               </div>
              
           </div>
+            <div class="layui-form-item">
+                <label  class="layui-form-label">
+                    <span class="x-red">*</span>用户状态
+                </label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status" value="1" title="启用" <c:if test="${admin.status ==1}">checked</c:if>>
+                    <input type="radio" name="status" value="0" title="禁用" <c:if test="${admin.status ==0}">checked</c:if>>
+                </div>
+            </div>
          
           <div class="layui-form-item">
 <%--              <label for="L_repass" class="layui-form-label"></label>--%>
-              <input type="submit" value=" 提交" class="layui-btn" lay-filter="add" lay-submit=""/>
+              <input type="submit" value=" 提交" class="layui-btn" lay-filter="update" lay-submit=""/>
           </div>
       </form>
     </div>
@@ -81,22 +90,34 @@
             }
           });
 
-          //监听提交
-          form.on('submit(add)', function(data){
-        	  
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("修改成功", {icon: 6},function () {
-            	document.getElementById('userForm').submit();
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-               
+            //监听提交
+            form.on('submit(update)', function(data){
+                console.log(data);
+                //把id为deptForm的form表单里的参数自动封装为参数传递
+                let params=$('#userForm').serialize();
+                console.log(params);
+                $.ajax({
+                    url: "${ctx}/user/modify",
+                    type: "POST",
+                    data:params,
+                    cache:false,
+                    dataType: "json",
+                    success: function(data){
+                            layer.alert("修改成功", {icon: 6},function (index) {
+                                //关闭当前弹窗
+                                layer.close(index);
+                                //修改成功跳转到添加分页的list页面
+                                location.href = "${ctx}/user/pageByCondition";
+                            });
+                    },
+                    error:function(err){
+                        layer.msg('程序异常!',{icon: 2,time:1000});
+                    }
+                });
+                return false;
             });
-            return false;
-          });
         });
+
     </script>
     
   </body>

@@ -252,6 +252,8 @@
               if (data != "0"){
                 $(obj).parents("tr").remove();
                 layer.msg('已删除!',{icon:1,time:1000});
+              } else {
+                layer.msg('删除失败!',{icon:2,time:1000});
               }
 
             },
@@ -271,12 +273,16 @@
 
       //批量删除方法
       function delAll (argument) {
-
         let data = tableCheck.getData();
-
         console.log(data);
-
         layer.confirm('确认要删除吗？'+data,function(index){
+          if (data.length == 0){
+            layer.alert('您未选中任何元素', {
+              icon: 3,
+              skin: 'layer-ext-demo'
+            })
+            return false
+          }
           //捉到所有被选中的，发异步进行删除
           $.ajax({
             url:"${ctx}/user/deleteAll",
@@ -285,10 +291,15 @@
             dataType:"text",
             success:function (data){
               console.log(data);
-              if (data != "0"){
-                layer.msg('删除成功', {icon: 1});
-                $(".layui-form-checked").not('.header').parents('tr').remove();
-              }
+                // layer.msg('删除成功', {icon: 1,time:1000});
+                // $(".layui-form-checked").not('.header').parents('tr').remove();
+                layer.alert('删除成功', {
+                  icon: 1,
+                  skin: 'layer-ext-demo'
+                },function () {
+                  //删除成功，页面重新加载
+                  location.reload();
+                })
             },
             error:function (){
               alert("删除操作异常");

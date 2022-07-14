@@ -21,10 +21,9 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form" method="POST" id="userForm"  action="${ctx}/user/addUserInfo">
+        <form class="layui-form" method="POST" id="userForm"  action="${ctx}/user/add">
         <input type="hidden" name="id" id="id" value="${admin.id }" >
         <input type="hidden" name="creator" id="creator" value="${admin.username }">
-        <input type="hidden" name="status" id="status" value="1">
           <div class="layui-form-item">
               <label for="username" class="layui-form-label">
                   <span class="x-red">*</span>登录名
@@ -52,52 +51,77 @@
                   autocomplete="off" class="layui-input" value="">
               </div>
           </div>
+            <div class="layui-form-item">
+                <label  class="layui-form-label">
+                    <span class="x-red">*</span>用户状态
+                </label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status" value="1" title="启用" checked>
+                    <input type="radio" name="status" value="0" title="禁用" >
+                </div>
+            </div>
          
           <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
+              <label class="layui-form-label">
               </label>
-              <input type="submit" id="submitAdd" value=" 提交" class="layui-btn" lay-filter="add" lay-submit=""/>
+              <input type="submit" value=" 提交" class="layui-btn" lay-filter="add" lay-submit=""/>
           </div>
       </form>
     </div>
     <script>
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
-          var form = layui.form
-          ,layer = layui.layer;
-        
-          //自定义验证规则
-          form.verify({
-            nikename: function(value){
-              if(value.length < 5){
-                return '昵称至少得5个字符啊';
-              }
-            }
-            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-            ,repass: function(value){
-                if($('#L_pass').val()!=$('#L_repass').val()){
-                    return '两次密码不一致';
-                }
-            }
-          });
+            var form = layui.form
+                ,layer = layui.layer;
 
-          //监听提交
-          form.on('submit(add)', function(data){
-        	  
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
-            	document.getElementById('deptForm').submit();
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-               
+            //自定义验证规则
+            form.verify({
+                nikename: function(value){
+                    if(value.length < 5){
+                        return '昵称至少得5个字符啊';
+                    }
+                }
+                ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+                ,repass: function(value){
+                    if($('#L_pass').val()!=$('#L_repass').val()){
+                        return '两次密码不一致';
+                    }
+                }
             });
-            return false;
-          });
-          
-          
+
+
+            //监听提交
+            form.on('submit(add)', function(data){
+
+                //把id为deptForm的form表单里的参数自动封装为参数传递
+                let params=$('#userForm').serialize();
+                console.log(params);
+                $.ajax({
+                    url: "${ctx}/user/add",
+                    type: "POST",
+                    data:params,
+                    cache:false,
+                    dataType: "json",
+                    success: function(data){
+                            layer.alert("新增成功", {icon: 6},function (index) {
+                                //关闭当前弹窗
+                                //layer.close(index);
+                                //关闭父弹窗
+                                parent.layer.closeAll();
+                                //刷新父级窗口（当前页）
+                                window.parent.location.reload();
+                                //重新加载页面（首页）
+                                <%--window.parent.location.href = "${ctx}/user/pageByCondition";--%>
+                            });
+                    },
+                    error:function(err){
+                        layer.msg('程序异常!',{icon: 2,time:1000});
+                    }
+                });
+                return false;
+            });
+
+
         });
     </script>
     

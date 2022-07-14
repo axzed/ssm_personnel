@@ -22,7 +22,7 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form" method="POST" id="deptForm"  action="${ctx}/dept/addDeptInfo">
+        <form class="layui-form" method="POST" id="deptAddForm"  action="${ctx}/dept/addDeptInfo">
         <input type="hidden" name="id" id="id" value="${dept.id }" >
           <div class="layui-form-item">
               <label for="name" class="layui-form-label">
@@ -79,7 +79,7 @@
             console.log(data);
             //发异步，把数据提交给php
             layer.alert("增加成功", {icon: 6},function () {
-            	document.getElementById('deptForm').submit();
+            	document.getElementById('deptAddForm').submit();
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame

@@ -18,6 +18,10 @@
         select * from dept_inf
     </select>
 
+    <select id="findById" resultType="com.axzed.bean.DeptInfo">
+        select * from dept_inf where id = #{id}
+    </select>
+
     <insert id="add" parameterType="com.axzed.bean.DeptInfo">
         insert into dept_inf (name, remark) value (#{name}, #{remark})
     </insert>
@@ -25,5 +29,10 @@
     <delete id="delete">
         delete from dept_inf where id = #{id}
     </delete>
+
+    <update id="modify" parameterType="com.axzed.bean.DeptInfo">
+        update dept_inf set name = #{name}, remark = #{remark} where id = #{id}
+    </update>
+
 
 </mapper>

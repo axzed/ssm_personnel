@@ -68,7 +68,7 @@
 
               <td class="td-manage">
 
-              <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/dept/add?id=${dept.id }');" href="javascript:;">
+              <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/dept/update?id=${dept.id }');" href="javascript:;">
 
                 <i class="layui-icon">&#xe642;</i>
               </a>

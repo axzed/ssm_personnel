@@ -15,7 +15,7 @@ public interface UserService {
 
     int delete(int id);
 
-    void add(AdminInfo adminInfo);
+    int add(AdminInfo adminInfo);
 
     int updateStatus(int newId, int newStatus);
 

@@ -60,7 +60,7 @@ public class JobController {
     @RequestMapping("/addJobInfo")
     public String addJobInfo(JobInfo jobInfo) {
         jobService.add(jobInfo);
-        return "/page/job/list.jsp";
+        return "redirect:/job/pageByCondition";
     }
 
     @RequestMapping("/delete")
@@ -106,7 +106,7 @@ public class JobController {
         if (row != 0) {
             List<JobInfo> jobInfos = jobService.showAll();
             model.addAttribute("jobList", jobInfos);
-            return "/page/job/list.jsp";
+            return "redirect:/job/pageByCondition";
         } else {
             model.addAttribute("errorMsg", "修改职位信息异常");
             return "/page/job/update.jsp";

@@ -2,7 +2,6 @@ package com.axzed.mapper;
 
 import com.axzed.bean.AdminInfo;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public interface UserMapper {
 
     int delete(@Param("id") int id);
 
-    void add(AdminInfo adminInfo);
+    int add(AdminInfo adminInfo);
 
     @Update("update admin_inf set status = #{status} where id = #{id}")
     int updateStatus(@Param("id") int id, @Param("status") int status);

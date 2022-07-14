@@ -28,4 +28,14 @@ public class TestDept {
         System.out.println(delete);
     }
 
+    @Test
+    public void testModify() {
+        DeptInfo deptInfo = new DeptInfo();
+        deptInfo.setId(6);
+        deptInfo.setName("教育部");
+        deptInfo.setRemark("负责教学");
+        int i = deptService.modify(deptInfo);
+        System.out.println(i);
+    }
+
 }

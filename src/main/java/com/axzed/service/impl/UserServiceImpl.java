@@ -70,13 +70,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void add(AdminInfo adminInfo) {
+    public int add(AdminInfo adminInfo) {
         try {
-            userMapper.add(adminInfo);
+            int row = userMapper.add(adminInfo);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("管理员删除异常", e);
         }
+        return 0;
     }
 
     @Override

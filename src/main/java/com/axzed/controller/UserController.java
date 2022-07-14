@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,23 +48,12 @@ public class UserController {
         return "/page/user/update.jsp";
     }
 
-    /**
-     * 修改管理员信息
-     * @param adminInfo
-     * @param model
-     * @return
-     */
+
     @RequestMapping("/modify")
-    public String modify(AdminInfo adminInfo, Model model) {
+    @ResponseBody
+    public int modify(AdminInfo adminInfo, Model model) {
         int row = userService.modify(adminInfo);
-        if (row != 0) {
-            List<AdminInfo> adminInfos = userService.showAll();
-            model.addAttribute("admin", adminInfos);
-            return "redirect:/user/pageByCondition";
-        } else {
-            model.addAttribute("errorMsg", "修改管理员信息异常");
-            return "/page/user/update.jsp";
-        }
+        return row;
     }
 
     /**
@@ -102,19 +93,22 @@ public class UserController {
         return;
     }
 
-    /**
-     * 展示添加
-     * @return
-     */
-    @RequestMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add() {
         return "/page/user/add.jsp";
     }
 
-    @RequestMapping("/addUserInfo")
-    public String addUserInfo(AdminInfo adminInfo) {
-        userService.add(adminInfo);
-        return "/page/user/list.jsp";
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
+    public int add(AdminInfo adminInfo, HttpServletRequest request) {
+        // 获取创建时间
+        Date date = new Date();
+        adminInfo.setCreateTime(date);
+        // 获取当前登录人信息
+        AdminInfo admin = (AdminInfo)request.getSession().getAttribute("admin");
+        System.out.println(adminInfo.getStatus());
+        int row = userService.add(adminInfo);
+        return row;
     }
 
     @RequestMapping("/updateStatus")

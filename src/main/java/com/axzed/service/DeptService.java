@@ -1,5 +1,6 @@
 package com.axzed.service;
 
+import com.axzed.bean.AdminInfo;
 import com.axzed.bean.DeptInfo;
 import com.axzed.bean.JobInfo;
 
@@ -14,4 +15,8 @@ public interface DeptService {
     void add(DeptInfo deptInfo);
 
     int delete(int id);
+
+    DeptInfo findById(int id);
+
+    int modify(DeptInfo deptInfo);
 }

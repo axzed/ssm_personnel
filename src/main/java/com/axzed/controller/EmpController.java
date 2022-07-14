@@ -70,7 +70,8 @@ public class EmpController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(EmpInfo empInfo) {
-        return "redirect:/page/index.jsp";
+
+        return "redirect:/employee/pageByCondition";
     }
 
 
