@@ -3,61 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
     <style>
         #main{
-            width: 700px;
-            height: 600px;
+            border: 1px blue solid;
             position: absolute;
             left: 0;
             right: 0;
             top: 0;
             bottom: 0;
             margin: auto;
-            border: 1px green solid;
+            width: 600px;
+            height: 600px;
         }
-
     </style>
-<!--    引入echarts-->
     <script src="../public/js/echarts.min.js"></script>
+    <script src="../public/js/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 
-<!--    创建一个容器-->
     <div id="main"></div>
 
     <script>
-        let chartDom = document.getElementById('main');
+        let charDom = document.getElementById('main');
         let myChart = echarts.init(chartDom);
         let option;
-
         option = {
-            // color: ['green'],
             title: {
-                text: '部门员工人数统计图'
+                text: '学生成绩统计图'
             },
             tooltip: {},
             legend: {
-                data:['员工人数']
+                data:['考试成绩']
             },
             xAxis: {
                 type: 'category',
-                data: ["1, 2, 3"]
+                data: []
             },
             yAxis: {
                 type: 'value'
             },
             series: [{
-                name: '员工人数',
+                name: '考试成绩',
                 type: 'bar',
                 data: [],
             }]
-        };
+        }
 
         option && myChart.setOption(option);
-
         myChart.showLoading();
 
+        let names = [];
+        let nums = [];
+
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "/ssm_personnel/score_chart",
+            data: {},
+            dataType: "json",
+            success: function (result) {
+                if (result) {
+                    for (let i = 0; i < result.length; i ++) {
+                        names.push(result[i].studentName);
+                    }
+                    for (let i = 0; i < result.length; i ++) {
+                        nums.push(result[i].totalScore);
+                    }
+                    myChart.hideLoading();
+                    myChart.setOption({
+                        xAxis: {
+                            data: names
+                        },
+                        series: [{
+                            name: '考试成绩',
+                            data: nums
+                        }]
+                    });
+                }
+            },
+            error: function (errorMsg) {
+                alert("图表请求数据失败");
+                myChart.hideLoading();
+            }
+        })
     </script>
 
 </body>

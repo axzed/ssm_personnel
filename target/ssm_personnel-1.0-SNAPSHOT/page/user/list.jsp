@@ -250,6 +250,7 @@
               console.log(data);
               if (data != "0"){
                 $(obj).parents("tr").remove();
+                location.reload()
                 layer.msg('已删除!',{icon:1,time:1000});
               } else {
                 layer.msg('删除失败!',{icon:2,time:1000});

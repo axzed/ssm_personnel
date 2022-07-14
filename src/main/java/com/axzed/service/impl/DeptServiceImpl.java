@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DeptServiceImpl implements DeptService {
@@ -77,6 +78,17 @@ public class DeptServiceImpl implements DeptService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("修改部门信息异常", e);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> employeeCount() {
+        try {
+            List<Map<String, Object>> list = deptMapper.employeeCount();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw  new RuntimeException("部门人数统计异常",e);
         }
     }
 

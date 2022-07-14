@@ -28,6 +28,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping("/myProfile")
+    public String myProfile(int id, Model model) {
+        AdminInfo adminInfo = userService.findById(id);
+        model.addAttribute("admin", adminInfo);
+        return "/page/user/profile.jsp";
+    }
+
     @RequestMapping("/list")
     public String showList(Model model) {
         List<AdminInfo> adminInfos = userService.showAll();
@@ -67,7 +74,6 @@ public class UserController {
     @RequestMapping("/deleteAll")
     @ResponseBody
     public void deleteAll(int[] ids) {
-        // 前端通过ajax进行异步调用传入选中的id数组循环调用单个删除方法就可以了
         for (int id : ids) {
             System.out.println(id);
             userService.delete(id);

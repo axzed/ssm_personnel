@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.axzed.mapper.NoticeMapper">
+
+    <resultMap id="notice" type="noticeInfo">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="create_date" property="createDate"/>
+        <association property="adminInfo" javaType="adminInfo">
+            <result column="nickname" property="nickname"></result>
+        </association>
+    </resultMap>
+
+
+    <select id="pageByCondition" resultMap="notice">
+        select ni.*,ai.nickname from notice_inf ni left join  admin_inf ai on ni.admin_id = ai.id
+        <where>
+            <if test="title!=null and title !=''">
+                ni.title like "%" #{title} "%"
+            </if>
+            <!--            <if test="createTime !=null">-->
+            <!--                -->
+            <!--                and  create_time =#{createTime}-->
+            <!--            </if>-->
+        </where>
+        order by ni.create_date desc
+    </select>
+
+    <insert id="save">
+        insert into notice_inf(title,content,create_date,admin_id) values (#{title},#{content},#{createDate},#{adminInfo.id});
+    </insert>
+
+    <update id="update">
+        update notice_inf set title = #{title},content = #{content} where id =#{id}
+    </update>
+
+    <delete id="delete">
+        delete from notice_inf where id = #{id}
+    </delete>
+
+    <select id="showAll" resultMap="notice">
+        select  * from notice_inf order by create_date desc;
+    </select>
+
+    <select id="findById" resultMap="notice">
+        select * from notice_inf where id = #{id}
+    </select>
+
+</mapper>

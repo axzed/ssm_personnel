@@ -34,5 +34,11 @@
         update dept_inf set name = #{name}, remark = #{remark} where id = #{id}
     </update>
 
+    <!--    查询部门下员工数量-->
+    <select id="employeeCount" resultType="Map">
+        SELECT di.`name`,count(ei.id) num FROM dept_inf di LEFT JOIN employee_inf ei ON di.id = ei.dept_id
+        GROUP BY di.id
+    </select>
+
 
 </mapper>

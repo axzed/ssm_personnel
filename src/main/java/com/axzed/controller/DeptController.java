@@ -5,6 +5,8 @@ import com.axzed.bean.DeptInfo;
 import com.axzed.bean.JobInfo;
 import com.axzed.common.CommonData;
 import com.axzed.service.DeptService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/dept")
@@ -98,6 +101,16 @@ public class DeptController {
     public int modify(DeptInfo deptInfo, Model model) {
         int row = deptService.modify(deptInfo);
         return row;
+    }
+
+    @RequestMapping("/employee_count")
+    @ResponseBody
+    public List<Map<String, Object>> employeeCount() throws JsonProcessingException {
+        List<Map<String, Object>> list = deptService.employeeCount();
+        ObjectMapper objectMapper=new ObjectMapper();
+        String listJson=objectMapper.writeValueAsString(list);
+        System.out.println(listJson);
+        return list;
     }
 
 }

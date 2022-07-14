@@ -206,6 +206,7 @@
               console.log(data);
               if (data != "0"){
                 $(obj).parents("tr").remove();
+                location.reload();
                 layer.msg('已删除!',{icon:1,time:1000});
               }
             },
@@ -237,6 +238,7 @@
             success:function (data){
               console.log(data);
               if (data != "0"){
+                location.reload();
                 layer.msg('删除成功', {icon: 1});
                 $(".layui-form-checked").not('.header').parents('tr').remove();
               }

@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+import java.util.Map;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
@@ -36,6 +39,12 @@ public class TestDept {
         deptInfo.setRemark("负责教学");
         int i = deptService.modify(deptInfo);
         System.out.println(i);
+    }
+
+    @Test
+    public void testDeptEmployee() {
+        List<Map<String, Object>> maps = deptService.employeeCount();
+        System.out.println(maps);
     }
 
 }

@@ -41,57 +41,57 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-  <!--    加载静态资源-->
+  <!--&lt;!&ndash;    加载静态资源&ndash;&gt;-->
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.css</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+  <!--  <servlet-name>default</servlet-name>-->
+  <!--  <url-pattern>*.css</url-pattern>-->
+  <!--</servlet-mapping>-->
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.js</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+  <!--  <servlet-name>default</servlet-name>-->
+  <!--  <url-pattern>*.js</url-pattern>-->
+  <!--</servlet-mapping>-->
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.jpg</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+  <!--  <servlet-name>default</servlet-name>-->
+  <!--  <url-pattern>*.jpg</url-pattern>-->
+  <!--</servlet-mapping>-->
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.png</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+  <!--  <servlet-name>default</servlet-name>-->
+  <!--  <url-pattern>*.png</url-pattern>-->
+  <!--</servlet-mapping>-->
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.eot</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+  <!--  <servlet-name>default</servlet-name>-->
+  <!--  <url-pattern>*.eot</url-pattern>-->
+  <!--</servlet-mapping>-->
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.svg</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+  <!--  <servlet-name>default</servlet-name>-->
+  <!--  <url-pattern>*.svg</url-pattern>-->
+  <!--</servlet-mapping>-->
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.ttf</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+  <!--  <servlet-name>default</servlet-name>-->
+  <!--  <url-pattern>*.ttf</url-pattern>-->
+  <!--</servlet-mapping>-->
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.woff</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+  <!--  <servlet-name>default</servlet-name>-->
+  <!--  <url-pattern>*.woff</url-pattern>-->
+  <!--</servlet-mapping>-->
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.TTF</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+  <!--  <servlet-name>default</servlet-name>-->
+  <!--  <url-pattern>*.TTF</url-pattern>-->
+  <!--</servlet-mapping>-->
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.webp</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+  <!--  <servlet-name>default</servlet-name>-->
+  <!--  <url-pattern>*.webp</url-pattern>-->
+  <!--</servlet-mapping>-->
 
   <servlet>
     <servlet-name>DispatcherServlet</servlet-name>

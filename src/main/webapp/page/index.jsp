@@ -32,8 +32,8 @@
           <li class="layui-nav-item">
             <a href="javascript:;">${sessionScope.admin.username }</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-              <dd><a onclick="x_admin_show('个人信息','${ctx }/user/myupdate')">个人信息</a></dd>
-              <dd><a onclick="x_admin_show('切换账号','${ctx }/user/logout')">切换账号</a></dd>
+              <dd><a onclick="x_admin_show('个人信息','${ctx }/user/myProfile?id=${sessionScope.admin.id}')">个人信息</a></dd>
+              <dd><a onclick="x_admin_show('切换账号','${ctx }/admin/logout')">切换账号</a></dd>
               <dd><a href="${ctx}/admin/logout">退出</a></dd>
             </dl>
           </li>
@@ -142,7 +142,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/notice/list">
+                        <a _href="${ctx }/notice/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>公告查询</cite>
                         </a>
