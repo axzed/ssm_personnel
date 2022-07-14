@@ -32,8 +32,8 @@
             <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
             <hr class="hr15">
             <select class="layui-input" name="tip" >
-            <option value="1">管理员</option>
-            <option value="2">用户</option>
+                <option value="1">管理员</option>
+                <option value="2">用户</option>
             </select>
             <br>
             <input type="radio" name="rem" value="1" title="记住用户名" checked="checked">

@@ -30,12 +30,11 @@
         
         <ul class="layui-nav right" lay-filter="">
           <li class="layui-nav-item">
-            <a href="javascript:;">尊敬的：${sessionScope.user_session.name }</a>
+            <a href="javascript:;">尊敬的：${sessionScope.admin.nickname }</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-              <dd><a onclick="x_admin_show('个人信息','${ctx }/employee/add?id=${sessionScope.user_session.id }')">个人信息</a></dd>
-              <%-- <dd><a onclick="x_admin_show('购物车','${ctx }/mall/cart')">购物车</a></dd> --%>
-              <dd><a onclick="x_admin_show('切换帐号','${ctx}/user/logout">切换帐号</a></dd>
-              <dd><a href="${ctx}/user/logout">退出</a></dd>
+                <dd><a onclick="x_admin_show('个人信息','${ctx }/user/myProfile?id=${sessionScope.admin.id}')">个人信息</a></dd>
+                <dd><a onclick="x_admin_show('切换账号','${ctx }/user/logout')">切换账号</a></dd>
+                <dd><a href="${ctx}/admin/logout">退出</a></dd>
             </dl>
           </li>
           <li class="layui-nav-item to-index"><a>欢迎登录</a></li>
@@ -57,7 +56,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/dept/list">
+                        <a _href="${ctx }/dept/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>部门列表</cite>
                         </a>
@@ -73,7 +72,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/job/list">
+                        <a _href="${ctx }/job/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>职位列表</cite>
                         </a>
@@ -90,7 +89,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/employee/list">
+                        <a _href="${ctx }/employee/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>员工列表</cite>
                         </a>
@@ -106,7 +105,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/notice/list">
+                        <a _href="${ctx }/notice/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>公告查询</cite>
                         </a>
@@ -119,12 +118,12 @@
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6b4;</i>
-                    <cite>下载中心</cite>
+                    <cite>文档中心</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/document/list">
+                        <a _href="${ctx }/document/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>文档查询</cite>
                         </a>
@@ -150,7 +149,7 @@
           </ul>
           <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <iframe src='${ctx}/mall/product' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                <iframe src='${ctx}/welcome' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
             </div>
           </div>
         </div>
@@ -160,7 +159,7 @@
     <!-- 中部结束 -->
     <!-- 底部开始 -->
     <div class="footer">
-        <div class="copyright">Copyright ©2019 人事管理系统</div>  
+        <div class="copyright">Copyright ©2022 人事管理系统</div>
     </div>
     <!-- 底部结束 -->
  

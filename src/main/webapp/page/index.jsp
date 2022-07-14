@@ -30,7 +30,7 @@
         
         <ul class="layui-nav right" lay-filter="">
           <li class="layui-nav-item">
-            <a href="javascript:;">${sessionScope.admin.username }</a>
+            <a href="javascript:;">${sessionScope.admin.nickname }</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
               <dd><a onclick="x_admin_show('个人信息','${ctx }/user/myProfile?id=${sessionScope.admin.id}')">个人信息</a></dd>
               <dd><a onclick="x_admin_show('切换账号','${ctx }/admin/logout')">切换账号</a></dd>
@@ -160,12 +160,12 @@
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6b4;</i>
-                    <cite>下载中心</cite>
+                    <cite>文档中心</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="${ctx }/document/list">
+                        <a _href="${ctx }/document/pageByCondition">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>文档查询</cite>
                         </a>

@@ -38,11 +38,21 @@
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
-      <xblock>
- 	    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','${ctx}/dept/add')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：${pageInfo.total} 条</span>
-      </xblock>
+      <c:choose>
+        <c:when test="${sessionScope.tip  == 1 }">
+          <xblock>
+            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+            <button class="layui-btn" onclick="x_admin_show('添加部门','${ctx}/dept/add')"><i class="layui-icon"></i>添加</button>
+            <span class="x-right" style="line-height:40px">共有数据：${pageInfo.total} 条</span>
+          </xblock>
+        </c:when>
+        <c:otherwise>
+          <xblock>
+            <span class="x-right" style="line-height:40px">共有：${pageInfo.total} 部门</span>
+          </xblock>
+        </c:otherwise>
+      </c:choose>
+
      
       
       <table class="layui-table">
@@ -51,10 +61,16 @@
             <th>
               <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
             </th>
-            <th>ID</th>
+            <th>序号</th>
             <th>部门名称</th>
             <th>详细信息</th>
-            <th>操作</th>
+            <c:choose>
+              <c:when test="${sessionScope.tip  == 1 }">
+                <th>操作</th>
+              </c:when>
+              <c:otherwise>
+              </c:otherwise>
+            </c:choose>
         </thead>
         <tbody>
         <c:forEach items="${requestScope.deptList}" var="dept" varStatus="status">
@@ -66,24 +82,22 @@
             <td>${dept.name }</td>
             <td>${dept.remark }</td>
 
-            <td class="td-manage">
-
-              <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/dept/update?id=${dept.id }');" href="javascript:;">
-                <i class="layui-icon">&#xe642;</i>
-              </a>
-
-              <a title="删除" onclick="member_del(this,'${dept.id }')" href="javascript:;">
-                <i class="layui-icon">&#xe640;</i>
-              </a>
-
-            </td>
-
-          </tr>
-
+       <c:choose>
+         <c:when test="${sessionScope.tip  == 1 }">
+           <td class="td-manage">
+             <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/dept/update?id=${dept.id }');" href="javascript:;">
+               <i class="layui-icon">&#xe642;</i>
+             </a>
+             <a title="删除" onclick="member_del(this,'${dept.id }')" href="javascript:;">
+               <i class="layui-icon">&#xe640;</i>
+             </a>
+           </td>
+         </c:when>
+         <c:otherwise>
+         </c:otherwise>
+       </c:choose>
 	    </c:forEach>
-
-
-
+     </tr>
 
         </tbody>
       </table>

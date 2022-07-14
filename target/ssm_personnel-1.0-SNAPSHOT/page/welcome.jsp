@@ -35,7 +35,7 @@
                                 <ul class="layui-row layui-col-space10 layui-this">
                                     <li class="layui-col-xs4">
 
-                                        <a href="javascript:;" onclick="x_admin_show('部门人数统计','./page/chart_zhu.html',600,600)" class="x-admin-backlog-body">
+                                        <a href="javascript:;" onclick="x_admin_show('部门人数统计','${ctx}/showZhuImage',600,600)" class="x-admin-backlog-body">
                                             <h2>部门人数统计图</h2>
                                             <p>
                                             <h2 style="color: red;font-size: 16px">点击查看</h2>
@@ -67,20 +67,31 @@
         </div>
     </fieldset>
     <fieldset class="layui-elem-field">
-        <legend>系统通知</legend>
+        <legend>公告通知</legend>
         <div class="layui-field-box">
             <table class="layui-table" lay-skin="line">
+                <thead>
+                    <th>序号</th>
+                    <th>公告标题</th>
+                    <th>公告简介</th>
+                </thead>
+
                 <tbody>
-                <tr>
-                    <td >
-                        <a class="x-a" href="/" target="_blank">隨便來點通知</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        <a class="x-a" href="/" target="_blank">你好，我好，大家好</a>
-                    </td>
-                </tr>
+
+                <c:forEach items="${noticeInfos}" var="noticeInfo" varStatus="status">
+                    <tr>
+                        <td >
+                                ${status.count}
+                        </td>
+                        <td >
+                            <a class="x-a" style="color: red"  href="javascript:;" onclick="x_admin_show('公告信息','${ctx}/page/notice/update.jsp','600','600')">${noticeInfo.title}</a>
+                        </td>
+                        <td>
+                                ${noticeInfo.content}
+                        </td>
+                    </tr>
+                </c:forEach>
+
                 </tbody>
             </table>
         </div>

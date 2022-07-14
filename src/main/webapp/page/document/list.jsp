@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
-  
+
   <head>
     <meta charset="UTF-8">
     <title>文档信息</title>
@@ -15,13 +18,8 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/public/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${ctx}/public/js/xadmin.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
-  
+
   <body>
     <div class="x-nav">
       <span class="layui-breadcrumb">
@@ -29,73 +27,87 @@
         <a>
           <cite>文档信息</cite></a>
       </span>
-            <button class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:innert;margin-left:75%;;"  lay-submit="" lay-filter="sreach"><i class="layui-icon"></i>增加</button>
-      
-      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="${ctx }/document/list" title="刷新">
+<%--            <button class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:innert;margin-left:75%;;"  lay-submit="" lay-filter="sreach"><i class="layui-icon"></i>增加</button>--%>
+
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="${ctx }/document/pageByCondition" title="刷新">
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
     </div>
     <div class="x-body">
       <div class="layui-row" style="" align="center">
-        <form class="layui-form layui-col-md12 x-so" method="get" action="${ctx }/document/list">
+        <form class="layui-form layui-col-md12 x-so" method="get" action="${ctx }/document/pageByCondition">
           <!-- <input class="layui-input" placeholder="开始日" name="start" id="start">
           <input class="layui-input" placeholder="截止日" name="end" id="end"> -->
-          <input type="text" name="content" style="width:50%;"  placeholder="请输入查找内容" autocomplete="off" class="layui-input">
+          <input type="text" name="title" style="width:50%;"  placeholder="请输入查找内容" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
-      <%-- <xblock>
- <!--        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
-        <button class="layui-btn" onclick="x_admin_show('添加用户','${ctx}/dept/add')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
-      </xblock> --%>
-     
-      
+        <c:choose>
+            <c:when test="${sessionScope.tip  == 1 }">
+                <xblock>
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                    <button class="layui-btn" onclick="x_admin_show('添加文档','${ctx}/document/add')"><i class="layui-icon"></i>添加</button>
+                    <span class="x-right" style="line-height:40px">共有文档: ${pageInfo.total} 条</span>
+                </xblock>
+            </c:when>
+            <c:otherwise>
+                <xblock>
+                    <button class="layui-btn" onclick="x_admin_show('添加文档','${ctx}/document/add')"><i class="layui-icon"></i>添加</button>
+                    <span class="x-right" style="line-height:40px">共有文档: ${pageInfo.total} 条</span>
+                </xblock>
+            </c:otherwise>
+        </c:choose>
+
+
+
       <table class="layui-table">
         <thead>
           <tr>
             <th>
               <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
             </th>
-            <th>ID</th>
+            <th>序号</th>
             <th>标题</th>
             <th>描述</th>
             <th>发布日期</th>
             <th>发布用户</th>
-            <th>操作</th>
+              <c:choose>
+              <c:when test="${sessionScope.tip  == 1 }">
+              <th>操作</th>
+              </c:when>
+              <c:otherwise>
+              </c:otherwise>
+              </c:choose>
         </thead>
         <tbody>
-        <c:forEach items="${requestScope.list}" var="dept" varStatus="stat">
+        <c:forEach items="${requestScope.documentInfos}" var="doc" varStatus="status">
      <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='${doc.id}'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>${dept.id}</td>
-            <td>${dept.title }</td>
-            <td>${dept.remark }</td>
-            <td>${dept.create_date }</td>
-            <td>${dept.user.name }</td>
-            
-           <!--  <td class="td-status">
-              <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td> -->
-            <td class="td-manage">
-             <!--  <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                <i class="layui-icon">&#xe601;</i>
-              </a> -->
-              <%-- <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/job/add?id=${dept.id }');" href="javascript:;"> --%>
-              <a title="编辑"  href="${ctx}/document/add?id=${dept.id }">
-                <i class="layui-icon">&#xe642;</i>
-              </a>
-              <a title="删除" onclick="member_del(this,'${dept.id }')" href="javascript:;">
-                <i class="layui-icon">&#xe640;</i>
-              </a>
-            </td>
-          </tr>
-				
-			</c:forEach>
-        
-          
-          
-          
+            <td>${status.count}</td>
+            <td>${doc.title }</td>
+            <td>${doc.remark }</td>
+            <td><fmt:formatDate type="both" pattern="yyyy年MM月dd日 hh小时mm分钟ss秒" value="${doc.createDate}"></fmt:formatDate></td>
+            <td>${doc.adminInfo.nickname }</td>
+         <c:choose>
+             <c:when test="${sessionScope.tip  == 1 }">
+                 <td class="td-manage">
+                     <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/document/update?id=${doc.id }');" href="javascript:;">
+                         <i class="layui-icon">&#xe642;</i>
+                     </a>
+                     <a title="删除" onclick="member_del(this,'${doc.id }')" href="javascript:;">
+                         <i class="layui-icon">&#xe640;</i>
+                     </a>
+                 </td>
+             </c:when>
+             <c:otherwise>
+             </c:otherwise>
+         </c:choose>
+
+     </tr>
+
+		</c:forEach>
+
         </tbody>
       </table>
      <!--  <div class="page">
@@ -109,11 +121,66 @@
         </div>
       </div> -->
 
+
+        <%--      分页开始--%>
+        <div class="page">
+            <%-- 设置页码数之前按钮 --%>
+            <a href="${pageContext.request.contextPath}${url}&currentPage=1">首页</a>
+            <c:if test="${pageInfo.pageNum > 1 }">
+                <a href="${pageContext.request.contextPath}${url}&currentPage=${pageInfo.pageNum-1 }">上一页</a>
+            </c:if>
+
+            <%-- 根据公式计算begin、end，存到page域中 --%>
+            <c:choose>
+                <%-- 如果总页数不足10页，那么把所有的页数都显示出来！ --%>
+                <c:when test="${pageInfo.pages <= 10 }">
+                    <c:set var="begin" value="1" />
+                    <c:set var="end" value="${pageInfo.pages }" />
+                </c:when>
+                <c:otherwise>
+                    <%-- 当总页数大于10时，通过公式计算出begin和end --%>
+                    <c:set var="begin" value="${pageInfo.pageNum-5 }" />
+                    <c:set var="end" value="${pageInfo.pageNum+4 }" />
+                    <%-- 计算中若 头溢出 --%>
+                    <c:if test="${begin < 1 }">
+                        <c:set var="begin" value="1" />
+                        <c:set var="end" value="10" />
+                    </c:if>
+                    <%-- 计算中若 尾溢出 --%>
+                    <c:if test="${end > pageInfo.pages }">
+                        <c:set var="begin" value="${pageInfo.pages - 9 }" />
+                        <c:set var="end" value="${pageInfo.pages }" />
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
+
+            <%-- 根据page域中begin、end值，循环遍历页码列表 --%>
+            <c:forEach var="i" begin="${begin }" end="${end }">
+                <c:choose>
+                    <%-- 当前页码数按钮变色，且链接不跳转 --%>
+                    <c:when test="${i eq pageInfo.pageNum }">
+                        <a href="javascript:void(0);" style="color:red">${i}</a>
+                    </c:when>
+                    <%-- 遍历生成的页码数上，绑上跳转路径与当前页数 --%>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}${url}&currentPage=${i}">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <%-- 设置页码数之后按钮 --%>
+            <c:if test="${pageInfo.pageNum < pageInfo.pages }">
+                <a href="${pageContext.request.contextPath}${url}&currentPage=${pageInfo.pageNum+1}">下一页</a>
+            </c:if>
+            <a href="${pageContext.request.contextPath}${url}&currentPage=${pageInfo.pages}">尾页</a>
+        </div>
+        <%--      分页结束--%>
+
     </div>
     <script>
       layui.use('laydate', function(){
         var laydate = layui.laydate;
-        
+
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
@@ -145,7 +212,7 @@
                 $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
                 layer.msg('已启用!',{icon: 5,time:1000});
               }
-              
+
           });
       }
 
@@ -154,24 +221,63 @@
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
               //等以后再使用异步，这里先使用
-              $.get("${ctx}/document/delete?id="+id);
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              $.ajax({
+                  url:"${ctx}/document/delete",
+                  data:"id="+id,
+                  type:"get",
+                  dataType:"text",
+                  success:function (data){
+                      console.log(data);
+                      if (data != "0"){
+                          $(obj).parents("tr").remove();
+                          location.reload();
+                          layer.msg('已删除!',{icon:1,time:1000});
+                      } else {
+                          layer.msg('删除失败!',{icon:2,time:1000});
+                      }
+                  },
+                  error:function (){
+                      alert("删除操作异常");
+                  }
+              })
           });
       }
 
 
-
+      //批量删除方法
       function delAll (argument) {
-
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
+          let data = tableCheck.getData();
+          console.log(data);
+          layer.confirm('确认要删除吗？'+data,function(index){
+              if (data.length == 0){
+                  layer.alert('您未选中任何元素', {
+                      icon: 3,
+                      skin: 'layer-ext-demo'
+                  })
+                  return false
+              }
+              //捉到所有被选中的，发异步进行删除
+              $.ajax({
+                  url:"${ctx}/document/deleteAll",
+                  data:"ids="+data,
+                  type:"post",
+                  dataType:"text",
+                  success:function (data){
+                      console.log(data);
+                      layer.alert('删除成功', {
+                          icon: 1,
+                          skin: 'layer-ext-demo'
+                      },function () {
+                          location.reload();
+                      })
+                  },
+                  error:function (){
+                      alert("删除操作异常");
+                  }
+              })
+          });
       }
+
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");

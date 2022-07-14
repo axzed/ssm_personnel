@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.axzed.mapper.DocumentMapper">
+
+    <resultMap id="document" type="documentInfo">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="filename" property="filename"/>
+        <result column="remark" property="remark"/>
+        <result column="create_date" property="createDate"/>
+        <association property="adminInfo" javaType="adminInfo">
+            <result column="nickname" property="nickname"></result>
+        </association>
+    </resultMap>
+
+    <select id="pageByCondition" resultMap="document">
+        select di.*,ai.nickname from document_inf di left join  admin_inf ai on di.admin_id = ai.id
+        <where>
+            <if test="title!=null and title !=''">
+                di.title like CONCAT('%',#{title},'%')
+            </if>
+       </where>
+        order by di.create_date desc
+    </select>
+
+    <insert id="save">
+        insert into document_inf(title,filename,remark,create_date,admin_id) values (#{title},#{filename},#{remark},#{createDate},#{adminInfo.id});
+    </insert>
+
+    <update id="update">
+        update document_inf set title = #{title},remark = #{remark} where id =#{id}
+    </update>
+
+    <delete id="delete">
+        delete from document_inf where id = #{id}
+    </delete>
+
+    <select id="showAll" resultMap="document">
+        select  * from document_inf order by create_date desc;
+    </select>
+
+    <select id="findById" resultMap="document">
+        select * from document_inf where id = #{id}
+    </select>
+
+
+</mapper>

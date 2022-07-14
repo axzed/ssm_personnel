@@ -39,11 +39,21 @@
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
-      <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加职位','${ctx}/job/add')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据: ${pageInfo.total} 条</span>
-      </xblock>
+        <c:choose>
+            <c:when test="${sessionScope.tip  == 1 }">
+                <xblock>
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                    <button class="layui-btn" onclick="x_admin_show('添加职位','${ctx}/job/add')"><i class="layui-icon"></i>添加</button>
+                    <span class="x-right" style="line-height:40px">共有职位类别: ${pageInfo.total} 种</span>
+                </xblock>
+            </c:when>
+            <c:otherwise>
+                <xblock>
+                    <span class="x-right" style="line-height:40px">共有职位类别: ${pageInfo.total} 种</span>
+                </xblock>
+            </c:otherwise>
+        </c:choose>
+
      
       
       <table class="layui-table">
@@ -56,7 +66,14 @@
             <th>职位</th>
             <th>信息</th>
             <th>所属部门</th>
-            <th>操作</th>
+              <c:choose>
+                <c:when test="${sessionScope.tip  == 1 }">
+                <th>操作</th>
+                </c:when>
+                <c:otherwise>
+                </c:otherwise>
+              </c:choose>
+
         </thead>
         <tbody>
         <c:forEach items="${requestScope.jobList}" var="job" varStatus="status">
@@ -69,19 +86,22 @@
             <td>${job.remark }</td>
             <td>${job.deptInfo.name }</td>
 
+         <c:choose>
+             <c:when test="${sessionScope.tip  == 1 }">
+                 <td class="td-manage">
+                     <a title="编辑" onclick="x_admin_show('编辑', '${ctx}/job/update?id=${job.id}');" href="javascript:;">
+                         <i class="layui-icon">&#xe642;</i>
+                     </a>
+                     <a title="删除" onclick="member_del(this,'${job.id }')" href="javascript:;">
+                         <i class="layui-icon">&#xe640;</i>
+                     </a>
+                 </td>
+             </c:when>
+             <c:otherwise>
+             </c:otherwise>
+         </c:choose>
 
-            <td class="td-manage">
-             <!--  <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                <i class="layui-icon">&#xe601;</i>
-              </a> -->
-              <%-- <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/job/add?id=${dept.id }');" href="javascript:;"> --%>
-              <a title="编辑" onclick="x_admin_show('编辑', '${ctx}/job/update?id=${job.id}');" href="javascript:;">
-                <i class="layui-icon">&#xe642;</i>
-              </a>
-              <a title="删除" onclick="member_del(this,'${job.id }')" href="javascript:;">
-                <i class="layui-icon">&#xe640;</i>
-              </a>
-            </td>
+
 <%--            </c:when>--%>
 
 <%--					  </c:choose>--%>
