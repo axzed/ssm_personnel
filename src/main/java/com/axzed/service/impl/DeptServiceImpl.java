@@ -1,8 +1,6 @@
 package com.axzed.service.impl;
 
-import com.axzed.bean.AdminInfo;
 import com.axzed.bean.DeptInfo;
-import com.axzed.bean.JobInfo;
 import com.axzed.mapper.DeptMapper;
 import com.axzed.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +37,10 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public void add(DeptInfo deptInfo) {
+    public int add(DeptInfo deptInfo) {
         try {
-            deptMapper.add(deptInfo);
+            int row = deptMapper.add(deptInfo);
+            return row;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("部门增加异常", e);

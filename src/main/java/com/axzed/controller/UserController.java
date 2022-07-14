@@ -35,19 +35,12 @@ public class UserController {
         return "/page/user/list.jsp";
     }
 
-    /**
-     * 修改管理员信息
-     * @param id
-     * @param model
-     * @return
-     */
     @RequestMapping("/update")
     public String update(int id, Model model) {
         AdminInfo adminInfo = userService.findById(id);
         model.addAttribute("admin", adminInfo);
         return "/page/user/update.jsp";
     }
-
 
     @RequestMapping("/modify")
     @ResponseBody
@@ -56,19 +49,12 @@ public class UserController {
         return row;
     }
 
-    /**
-     * 管理员信息模糊查询
-     * @param content
-     * @param model
-     * @return
-     */
     @RequestMapping("/search")
     public String search(String content, Model model) {
         List<AdminInfo> adminInfos = userService.search(content);
         model.addAttribute("adminList", adminInfos);
         return "/page/user/list.jsp";
     }
-
 
     @RequestMapping("/delete")
     @ResponseBody
@@ -78,10 +64,6 @@ public class UserController {
         return row;
     }
 
-    /**
-     * 批量删除
-     * @param ids
-     */
     @RequestMapping("/deleteAll")
     @ResponseBody
     public void deleteAll(int[] ids) {

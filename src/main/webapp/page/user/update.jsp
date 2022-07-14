@@ -104,10 +104,8 @@
                     dataType: "json",
                     success: function(data){
                             layer.alert("修改成功", {icon: 6},function (index) {
-                                //关闭当前弹窗
                                 layer.close(index);
-                                //修改成功跳转到添加分页的list页面
-                                location.href = "${ctx}/user/pageByCondition";
+                                window.parent.location.reload();
                             });
                     },
                     error:function(err){

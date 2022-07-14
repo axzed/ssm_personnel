@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -49,15 +50,16 @@ public class DeptController {
         return "/page/dept/list.jsp";
     }
 
-    @RequestMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add() {
         return "/page/dept/add.jsp";
     }
 
-    @RequestMapping("/addDeptInfo")
-    public String addDeptInfo(DeptInfo deptInfo) {
-        deptService.add(deptInfo);
-        return "redirect:/dept/pageByCondition";
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
+    public int addDeptInfo(DeptInfo deptInfo) {
+        int row = deptService.add(deptInfo);
+        return row;
     }
 
     @RequestMapping("/delete")
@@ -92,16 +94,10 @@ public class DeptController {
     }
 
     @RequestMapping("/modify")
-    public String modify(DeptInfo deptInfo, Model model) {
+    @ResponseBody
+    public int modify(DeptInfo deptInfo, Model model) {
         int row = deptService.modify(deptInfo);
-        if (row != 0) {
-            List<DeptInfo> deptInfos = deptService.showAll();
-            model.addAttribute("dept", deptInfos);
-            return "redirect:/dept/pageByCondition";
-        } else {
-            model.addAttribute("errorMsg", "修改管理员信息异常");
-            return "/page/dept/update.jsp";
-        }
+        return row;
     }
 
 }

@@ -3,7 +3,6 @@ package com.axzed.mapper;
 
 import com.axzed.bean.JobInfo;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public interface JobMapper {
 
     int delete(@Param("id") int id);
 
-    void add(JobInfo jobInfo);
+    int add(JobInfo jobInfo);
 
     List<JobInfo> pageByCondition(JobInfo jobInfo);
 

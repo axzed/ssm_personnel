@@ -1,6 +1,5 @@
 package com.axzed.service.impl;
 
-import com.axzed.bean.AdminInfo;
 import com.axzed.bean.JobInfo;
 import com.axzed.mapper.JobMapper;
 import com.axzed.service.JobService;
@@ -60,9 +59,10 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void add(JobInfo jobInfo) {
+    public int add(JobInfo jobInfo) {
         try {
-            jobMapper.add(jobInfo);
+            int row = jobMapper.add(jobInfo);
+            return row;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("职位删除异常", e);

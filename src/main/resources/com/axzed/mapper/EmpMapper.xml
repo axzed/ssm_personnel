@@ -12,7 +12,10 @@
         <result column="address" property="address"/>
         <result column="card_id" property="cardId"/>
         <result column="create_date" property="createDate"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="job_id" property="jobId"/>
 
+        <!--通过嵌套id访问关联的实体类-->
         <association property="deptInfo" javaType="deptInfo">
             <result column="dname" property="name"/>
         </association>
@@ -21,6 +24,30 @@
             <result column="jname" property="name"/>
         </association>
     </resultMap>
+
+    <insert id="add" parameterType="empInfo">
+        insert into employee_inf (name, sex, phone, email, education, address, card_id, create_date, dept_id, job_id)
+        value (#{name}, #{sex}, #{phone}, #{email}, #{education}, #{address}, #{cardId}, #{createDate}, #{deptId}, #{jobId})
+    </insert>
+
+    <update id="modify" parameterType="empInfo">
+        update employee_inf
+        set name = #{name},
+            sex = #{sex},
+            phone = #{phone},
+            email = #{email},
+            education = #{education},
+            address = #{address},
+            card_id = #{cardId},
+            create_date = #{createDate},
+            dept_id = #{deptId},
+            job_id = #{jobId}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from employee_inf where id = #{id}
+    </delete>
 
     <select id="pageByCondition" resultMap="emp">
         SELECT ei.*, di.`name` dname,ji.`name` jname FROM employee_inf  ei
@@ -33,5 +60,8 @@
         </where>
     </select>
 
+    <select id="findById" resultType="com.axzed.bean.EmpInfo">
+        select * from employee_inf where id = #{id}
+    </select>
 
 </mapper>

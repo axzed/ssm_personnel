@@ -85,7 +85,7 @@
             <td>${emp.cardId }</td>
             <td>${emp.deptInfo.name }</td>
             <td>${emp.address }</td>
-            <td><fmt:formatDate type="both" value="${emp.createDate }"></fmt:formatDate></td>
+            <td><fmt:formatDate type="both" pattern="yyyy年MM月dd日 hh小时mm分钟ss秒" value="${emp.createDate}"></fmt:formatDate></td>
 
            <!--  <td class="td-status">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td> -->
@@ -97,10 +97,11 @@
                 <i class="layui-icon">&#xe601;</i>
               </a> -->
               <%-- <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/job/add?id=${dept.id }');" href="javascript:;"> --%>
-              <a title="编辑"  href="${ctx}/employee/add?id=${dept.id }">
-                <i class="layui-icon">&#xe642;</i>
-              </a>
-              <a title="删除" onclick="member_del(this,'${dept.id }')" href="javascript:;">
+                <a title="编辑" onclick="x_admin_show('编辑', '${ctx}/employee/update?id=${emp.id}');" href="javascript:;">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>
+
+              <a title="删除" onclick="member_del(this,'${emp.id }')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -229,23 +230,60 @@
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
               //等以后再使用异步，这里先使用
-              $.get("${ctx}/employee/delete?id="+id);
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              $.ajax({
+                  url:"${ctx}/employee/delete",
+                  data:"id="+id,
+                  type:"get",
+                  dataType:"text",
+                  success:function (data){
+                      console.log(data);
+                      if (data != "0"){
+                          $(obj).parents("tr").remove();
+                          layer.msg('已删除!',{icon:1,time:1000});
+                      } else {
+                          layer.msg('删除失败!',{icon:2,time:1000});
+                      }
+                  },
+                  error:function (){
+                      alert("删除操作异常");
+                  }
+              })
           });
       }
 
 
-
+      //批量删除方法
       function delAll (argument) {
-
-        var data = tableCheck.getData();
-
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
+          let data = tableCheck.getData();
+          console.log(data);
+          layer.confirm('确认要删除吗？'+data,function(index){
+              if (data.length == 0){
+                  layer.alert('您未选中任何元素', {
+                      icon: 3,
+                      skin: 'layer-ext-demo'
+                  })
+                  return false
+              }
+              //捉到所有被选中的，发异步进行删除
+              $.ajax({
+                  url:"${ctx}/employee/deleteAll",
+                  data:"ids="+data,
+                  type:"post",
+                  dataType:"text",
+                  success:function (data){
+                      console.log(data);
+                      layer.alert('删除成功', {
+                          icon: 1,
+                          skin: 'layer-ext-demo'
+                      },function () {
+                          location.reload();
+                      })
+                  },
+                  error:function (){
+                      alert("删除操作异常");
+                  }
+              })
+          });
       }
     </script>
     <script>var _hmt = _hmt || []; (function() {

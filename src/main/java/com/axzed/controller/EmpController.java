@@ -1,5 +1,6 @@
 package com.axzed.controller;
 
+import com.axzed.bean.AdminInfo;
 import com.axzed.bean.DeptInfo;
 import com.axzed.bean.EmpInfo;
 import com.axzed.bean.JobInfo;
@@ -16,9 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -69,10 +72,48 @@ public class EmpController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(EmpInfo empInfo) {
-
-        return "redirect:/employee/pageByCondition";
+    @ResponseBody
+    public int add(EmpInfo empInfo) {
+        Date date = new Date();
+        empInfo.setCreateDate(date);
+        int row = empService.add(empInfo);
+        return row;
     }
 
+    @RequestMapping("/delete")
+    @ResponseBody
+    public int delete(int id, Model model) {
+        int row = empService.delete(id);
+        return row;
+    }
+
+    @RequestMapping("/deleteAll")
+    @ResponseBody
+    public void deleteAll(int[] ids) {
+        // 前端通过ajax进行异步调用传入选中的id数组循环调用单个删除方法就可以了
+        for (int id : ids) {
+            empService.delete(id);
+        }
+        return;
+    }
+
+    @RequestMapping("/update")
+    public String update(int id, Model model) {
+        EmpInfo empInfo = empService.findById(id);
+        List<DeptInfo> deptInfos = deptService.showAll();
+        List<JobInfo> jobInfos = jobService.showAll();
+        model.addAttribute("deptInfos", deptInfos);
+        model.addAttribute("jobInfos", jobInfos);
+        model.addAttribute("emp", empInfo);
+        return "/page/employee/update.jsp";
+    }
+
+    @RequestMapping("/modify")
+    @ResponseBody
+    public int modify(EmpInfo empInfo, Model model) {
+
+        int row = empService.modify(empInfo);
+        return row;
+    }
 
 }

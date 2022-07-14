@@ -1,8 +1,10 @@
 package com.axzed.controller;
 
 import com.axzed.bean.AdminInfo;
+import com.axzed.bean.DeptInfo;
 import com.axzed.bean.JobInfo;
 import com.axzed.common.CommonData;
+import com.axzed.service.DeptService;
 import com.axzed.service.JobService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,6 +25,9 @@ public class JobController {
 
     @Autowired
     private JobService jobService;
+
+    @Autowired
+    private DeptService deptService;
 
     @RequestMapping("/pageByCondition")
     public String pageByCondition(@RequestParam(defaultValue = "1") int currentPage,
@@ -52,15 +58,18 @@ public class JobController {
      * 展示添加
      * @return
      */
-    @RequestMapping("/add")
-    public String add() {
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String add(Model model) {
+        List<DeptInfo> deptInfos = deptService.showAll();
+        model.addAttribute("deptInfos", deptInfos);
         return "/page/job/add.jsp";
     }
 
-    @RequestMapping("/addJobInfo")
-    public String addJobInfo(JobInfo jobInfo) {
-        jobService.add(jobInfo);
-        return "redirect:/job/pageByCondition";
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
+    public int addJobInfo(JobInfo jobInfo) {
+        int row = jobService.add(jobInfo);
+        return row;
     }
 
     @RequestMapping("/delete")
@@ -71,10 +80,6 @@ public class JobController {
         return row;
     }
 
-    /**
-     * 批量删除
-     * @param ids
-     */
     @RequestMapping("/deleteAll")
     @ResponseBody
     public void deleteAll(int[] ids) {
@@ -90,27 +95,17 @@ public class JobController {
     @RequestMapping("/update")
     public String update(int id, Model model) {
         JobInfo jobInfo = jobService.findById(id);
+        List<DeptInfo> deptInfos = deptService.showAll();
         model.addAttribute("job", jobInfo);
+        model.addAttribute("deptInfos", deptInfos);
         return "/page/job/update.jsp";
     }
 
-    /**
-     * 修改职位信息
-     * @param jobInfo
-     * @param model
-     * @return
-     */
     @RequestMapping("/modify")
-    public String modify(JobInfo jobInfo , Model model) {
+    @ResponseBody
+    public int modify(JobInfo jobInfo , Model model) {
         int row = jobService.modify(jobInfo);
-        if (row != 0) {
-            List<JobInfo> jobInfos = jobService.showAll();
-            model.addAttribute("jobList", jobInfos);
-            return "redirect:/job/pageByCondition";
-        } else {
-            model.addAttribute("errorMsg", "修改职位信息异常");
-            return "/page/job/update.jsp";
-        }
+        return row;
     }
 
 }

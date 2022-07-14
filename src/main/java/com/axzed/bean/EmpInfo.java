@@ -20,6 +20,9 @@ public class EmpInfo {
     private String email;
     private Date createDate;
 
+    private int deptId;
+    private int jobId;
+
     private DeptInfo deptInfo;
     private JobInfo jobInfo;
 

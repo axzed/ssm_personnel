@@ -85,9 +85,11 @@
               </c:if>
 
               <%-- <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/job/add?id=${dept.id }');" href="javascript:;"> --%>
-              <a title="编辑"  href="${ctx}/user/update?id=${admin.id }">
+
+              <a title="编辑" onclick="x_admin_show('编辑', '${ctx}/user/update?id=${admin.id}');" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
+
               <a title="删除" onclick="member_del(this,'${admin.id }')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
@@ -240,32 +242,23 @@
           //发异步删除数据
           //等以后再使用异步，这里先使用
           $.ajax({
-
             url:"${ctx}/user/delete",
             data:"id="+id,
             type:"get",
             dataType:"text",
             success:function (data){
-
               console.log(data);
-
               if (data != "0"){
                 $(obj).parents("tr").remove();
                 layer.msg('已删除!',{icon:1,time:1000});
               } else {
                 layer.msg('删除失败!',{icon:2,time:1000});
               }
-
             },
             error:function (){
               alert("删除操作异常");
             }
-
           })
-
-          <%--$.get("${ctx}/user/delete","id="+id);--%>
-          <%--$(obj).parents("tr").remove();--%>
-          <%--layer.msg('已删除!',{icon:1,time:1000});--%>
         });
       }
 

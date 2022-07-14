@@ -75,7 +75,7 @@
                 <i class="layui-icon">&#xe601;</i>
               </a> -->
               <%-- <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/job/add?id=${dept.id }');" href="javascript:;"> --%>
-              <a title="编辑"  href="${ctx}/job/update?id=${job.id }">
+              <a title="编辑" onclick="x_admin_show('编辑', '${ctx}/job/update?id=${job.id}');" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
               <a title="删除" onclick="member_del(this,'${job.id }')" href="javascript:;">
@@ -205,6 +205,13 @@
           let data = tableCheck.getData();
           console.log(data);
           layer.confirm('确认要删除吗？'+data,function(index){
+              if (data.length == 0){
+                  layer.alert('您未选中任何元素', {
+                      icon: 3,
+                      skin: 'layer-ext-demo'
+                  })
+                  return false
+              }
               //捉到所有被选中的，发异步进行删除
               $.ajax({
                   url:"${ctx}/job/deleteAll",

@@ -45,7 +45,7 @@
             
           </div>
           <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
+              <label class="layui-form-label">
               </label>
               <input type="submit" value=" 提交" class="layui-btn" lay-filter="add" lay-submit=""/>
                  
@@ -75,16 +75,23 @@
 
           //监听提交
           form.on('submit(add)', function(data){
-        	  
+        	let params = $('#deptAddForm').serialize();
             console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
-            	document.getElementById('deptAddForm').submit();
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-               
+            $.ajax({
+                url: "${ctx}/dept/add",
+                type: "POST",
+                data: params,
+                cache: false,
+                dataType: "json",
+                success: function(data) {
+                    layer.alert("新增成功", {icon: 6}, function (index) {
+                        parent.layer.closeAll();
+                        window.parent.location.reload();
+                    })
+                },
+                error: function (err) {
+                    layer.msg("新增失败!", {icon:5, time:1000});
+                }
             });
             return false;
           });

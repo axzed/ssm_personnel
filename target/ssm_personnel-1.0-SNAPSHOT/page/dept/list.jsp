@@ -66,15 +66,16 @@
             <td>${dept.name }</td>
             <td>${dept.remark }</td>
 
-              <td class="td-manage">
+            <td class="td-manage">
 
               <a title="编辑"  onclick="x_admin_show('编辑','${ctx}/dept/update?id=${dept.id }');" href="javascript:;">
-
                 <i class="layui-icon">&#xe642;</i>
               </a>
+
               <a title="删除" onclick="member_del(this,'${dept.id }')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
+
             </td>
 
           </tr>
@@ -220,6 +221,13 @@
         let data = tableCheck.getData();
         console.log(data);
         layer.confirm('确认要删除吗？'+data,function(index){
+          if (data.length == 0){
+            layer.alert('您未选中任何元素', {
+              icon: 3,
+              skin: 'layer-ext-demo'
+            })
+            return false
+          }
           //捉到所有被选中的，发异步进行删除
           $.ajax({
             url:"${ctx}/dept/deleteAll",

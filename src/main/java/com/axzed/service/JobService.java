@@ -1,6 +1,5 @@
 package com.axzed.service;
 
-import com.axzed.bean.AdminInfo;
 import com.axzed.bean.JobInfo;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public interface JobService {
 
     int delete(int id);
 
-    void add(JobInfo jobInfo);
+    int add(JobInfo jobInfo);
 
     List<JobInfo> pageByCondition(JobInfo jobInfo);
 }

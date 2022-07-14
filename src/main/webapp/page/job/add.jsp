@@ -22,7 +22,7 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form" method="POST" id="deptForm"  action="${ctx}/job/addJobInfo">
+        <form class="layui-form" method="POST" id="jobForm"  action="${ctx}/job/add">
         <input type="hidden" name="id" id="id" value="${job.id }" >
           <div class="layui-form-item">
               <label for="name" class="layui-form-label">
@@ -44,18 +44,22 @@
               </div>
             
           </div>
-          <div class="layui-form-item">
-              <label for="deptId" class="layui-form-label">
-                  <span class="x-red">*</span>职位所属部门ID
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="deptId" name="deptId" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input" value="">
-              </div>
+            <div class="layui-form-item">
+                <label for="dept_id" class="layui-form-label">
+                    <span class="x-red">*</span>部门
+                </label>
+                <div class="layui-input-inline">
+                    <select id="dept_id" name="deptId" class="valid">
+                        <c:forEach items="${requestScope.deptInfos}" var="deptInfo" varStatus="status">
+                            <option value="${deptInfo.id}" <c:if test="${job.deptInfo.id == deptInfo.id }">selected</c:if>>${deptInfo.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
 
           </div>
           <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
+              <label class="layui-form-label">
               </label>
               <input type="submit" value=" 提交" class="layui-btn" lay-filter="add" lay-submit=""/>
                  
@@ -83,23 +87,31 @@
             }
           });
 
-          //监听提交
-          form.on('submit(add)', function(data){
-        	  
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
-            	document.getElementById('deptForm').submit();
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-               
+            //监听提交
+            form.on('submit(add)', function(data){
+                //把id为deptForm的form表单里的参数自动封装为参数传递
+                let params=$('#jobForm').serialize();
+                console.log(params);
+                $.ajax({
+                    url: "${ctx}/job/add",
+                    type: "POST",
+                    data:params,
+                    cache:false,
+                    dataType: "json",
+                    success: function(data){
+                        layer.alert("新增成功", {icon: 6},function (index) {
+                            parent.layer.closeAll();
+                            window.parent.location.reload();
+                            <%--window.parent.location.href = "${ctx}/user/pageByCondition";--%>
+                        });
+                    },
+                    error:function(err){
+                        layer.msg('程序异常!',{icon: 2,time:1000});
+                    }
+                });
+                return false;
             });
-            return false;
-          });
-          
-          
+
         });
     </script>
     

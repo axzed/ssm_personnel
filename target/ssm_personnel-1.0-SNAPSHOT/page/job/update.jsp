@@ -23,7 +23,7 @@
     <div class="x-body">
         <form class="layui-form" method="POST" id="jobForm"  action="${ctx}/job/modify">
         <input type="hidden" name="id" id="id" value="${job.id }" >
-          <div class="layui-form-item">
+            <div class="layui-form-item">
               <label for="name" class="layui-form-label">
                   <span class="x-red">*</span>职位名称
               </label>
@@ -31,9 +31,9 @@
                   <input type="text" id="name" name="name" required="" lay-verify="required"
                   autocomplete="off" class="layui-input" value="${job.name}">
               </div>
-             
-          </div>
-         <div class="layui-form-item">
+            </div>
+
+            <div class="layui-form-item">
               <label for="remark" class="layui-form-label">
                   <span class="x-red">*</span>职位详情
               </label>
@@ -41,22 +41,24 @@
                   <input type="text" id="remark" name="remark" required="" lay-verify="required"
                   autocomplete="off" class="layui-input" value="${job.remark}">
               </div>
-             
-          </div>
-           <div class="layui-form-item">
-              <label for="deptId" class="layui-form-label">
-                  <span class="x-red">*</span>部门ID
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="deptId" name="deptId" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input" value="${job.deptId }">
-              </div>
-             
-          </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="dept_id" class="layui-form-label">
+                    <span class="x-red">*</span>部门
+                </label>
+                <div class="layui-input-inline">
+                    <select id="dept_id" name="deptId" class="valid">
+                        <c:forEach items="${requestScope.deptInfos}" var="deptInfo" varStatus="status">
+                            <option value="${deptInfo.id}" <c:if test="${job.deptId == deptInfo.id }">selected</c:if>>${deptInfo.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
          
           <div class="layui-form-item">
 <%--              <label for="L_repass" class="layui-form-label"></label>--%>
-              <input type="submit" value=" 提交" class="layui-btn" lay-filter="add" lay-submit=""/>
+              <input type="submit" value=" 提交" class="layui-btn" lay-filter="update" lay-submit=""/>
           </div>
       </form>
     </div>
@@ -82,21 +84,31 @@
             }
           });
 
-          //监听提交
-          form.on('submit(add)', function(data){
-        	  
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("修改成功", {icon: 6},function () {
-            	document.getElementById('jobForm').submit();
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-               
+            //监听提交
+            form.on('submit(update)', function(data){
+                console.log(data);
+                //把id为deptForm的form表单里的参数自动封装为参数传递
+                let params=$('#jobForm').serialize();
+                console.log(params);
+                $.ajax({
+                    url: "${ctx}/job/modify",
+                    type: "POST",
+                    data:params,
+                    cache:false,
+                    dataType: "json",
+                    success: function(data){
+                        layer.alert("修改成功", {icon: 6},function (index) {
+                            layer.close(index);
+                            window.parent.location.reload();
+                        });
+                    },
+                    error:function(err){
+                        layer.msg('程序异常!',{icon: 2,time:1000});
+                    }
+                });
+                return false;
             });
-            return false;
-          });
+
         });
     </script>
     

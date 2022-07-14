@@ -73,11 +73,11 @@ public class UserServiceImpl implements UserService {
     public int add(AdminInfo adminInfo) {
         try {
             int row = userMapper.add(adminInfo);
+            return row;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("管理员删除异常", e);
         }
-        return 0;
     }
 
     @Override
